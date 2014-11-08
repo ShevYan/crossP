@@ -29,6 +29,11 @@ public class HomeController {
 		return "home";
 	}
 		
+	@RequestMapping("/hello")
+	public String hello() throws Exception {
+		return "hello";
+	}
+	
 	@RequestMapping(value="/login")
 	public String login() {
 		return "login";
@@ -54,8 +59,9 @@ public class HomeController {
 		return "403";
 	}
 	
-	@ExceptionHandler(Exception.class)  
-    public String runtimeExceptionHandler(Exception runtimeException) {  
-       return "exception";
-    }  
+//	
+//	@ExceptionHandler(Exception.class)  
+//    public String runtimeExceptionHandler(Exception runtimeException) {  
+//       return "exception";
+//    }  
 }

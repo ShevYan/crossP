@@ -1,4 +1,6 @@
 # Operating System Files
+.gitignore
+.springBeans
 
 *.DS_Store
 Thumbs.db

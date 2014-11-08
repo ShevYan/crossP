@@ -63,6 +63,7 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 			http.authorizeRequests()
 					.antMatchers("/api/**").hasRole("REST")	
 					.antMatchers("/user/**").hasRole("USER")
+					.antMatchers("/admin/**").hasRole("ADMIN")
 					.and()
 						.formLogin()
 							.loginPage("/login").failureUrl("/login?error").permitAll()
@@ -72,7 +73,9 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 							.invalidateHttpSession(false)
 							.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 					.and().exceptionHandling()
-                    		.accessDeniedPage("/forbidden");;
+                    		.accessDeniedPage("/forbidden")
+                    .and()
+                    	.csrf().disable();
 		}
 	}
 

@@ -1,5 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Index Page</title>
 
-<nav class="navbar navbar-default" role="navigation">
+<link href="../../css/bootstrap/bootstrap.min.css" rel="stylesheet"></link>
+<script src="../../js/lib/jquery/jquery.min.js"></script>
+<script src="../../js/lib/bootstrap/bootstrap.min.js"></script>
+
+
+</head>
+<body onload="document.f.username.focus();">
+  <div class="container">
+    <nav class="navbar navbar-default" role="navigation">
      <div class="navbar-header">
         <a class="navbar-brand" href="/">Home</a>
      </div>
@@ -35,7 +47,13 @@
             </li>
             <li><a href="/about.html">About</a></li>
             <li style="margin-left: 600px;"><a href="/login">Login</a></li>
-        <li><a href="/logout">Logout</a></li>
-      </ul>
-   </div>
-</nav>
+            <li><a href="/logout">Logout</a></li>
+          </ul>
+       </div>
+    </nav>
+    <div class="content">
+       This is index page.
+    </div>
+  </div>
+</body>
+</html>
