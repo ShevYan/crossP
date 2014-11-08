@@ -10,7 +10,7 @@
 </head>
 <body onload="document.f.username.focus();">
   <div class="container">
-    <jsp:include page="header.jsp" flush="true"/> 
+    <%@include file="header.jsp"%>
     <div class="content" style="margin-top: 50px; margin-left: 200px;">
       <p th:if="${param.error}" class="alert alert-warning">There was an error, please try again</p>
       <h2>Login with Username and Password</h2>
