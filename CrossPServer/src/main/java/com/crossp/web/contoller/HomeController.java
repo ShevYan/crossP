@@ -19,6 +19,7 @@ package com.crossp.web.contoller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,8 +64,13 @@ public class HomeController {
 		return "register";
 	}
 	
+	/**
+	 * http://localhost:8080/register?username=11112121&password=1212121
+	 * @param user
+	 * @return
+	 */
 	@RequestMapping(value="/register", method=RequestMethod.POST)
-	public String registerUser(@RequestBody User user) {
+	public String registerUser(User user) {
 		Authority auth = new Authority();
 		auth.setUsername(user.getUsername());
 		auth.setAuthority("ROLE_USER");
@@ -73,13 +79,7 @@ public class HomeController {
 		authorityRepository.save(auth);
 		return "home";
 	}
-	
-	
-	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String tryLogin() {
-		return "access";
-	}
-	
+		
 	@RequestMapping(value="/logout")
 	public String logout() {
 		return "logout";

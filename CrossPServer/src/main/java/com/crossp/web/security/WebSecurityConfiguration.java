@@ -48,7 +48,7 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
     public static class IndexSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/about").anonymous();
+            http.antMatcher("/**").anonymous();
         }
     }
 
@@ -66,7 +66,9 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 					.antMatchers("/admin/**").hasRole("ADMIN")
 					.and()
 						.formLogin()
-							.loginPage("/login").failureUrl("/login?error").permitAll()
+							.loginPage("/login")
+								.defaultSuccessUrl("/")
+								.failureUrl("/login?error").permitAll()
 					.and()
 						.logout()
 							.deleteCookies("remove")
