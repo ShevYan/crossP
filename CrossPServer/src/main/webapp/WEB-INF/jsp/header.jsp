@@ -1,3 +1,5 @@
+<%@include file="resources.jsp"%>
+<%@include file="taglib.jsp"%>
  
 <nav class="navbar navbar-default" role="navigation">
      <div class="navbar-header">
