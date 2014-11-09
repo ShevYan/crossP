@@ -19,15 +19,10 @@ package com.crossp.web.contoller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
-import ch.qos.logback.classic.Logger;
 
 import com.crossp.jpa.domain.Authority;
 import com.crossp.jpa.domain.User;
@@ -77,7 +72,7 @@ public class HomeController {
 		logger.info(user);
 		userRepository.save(user);
 		authorityRepository.save(auth);
-		return "home";
+		return "login";
 	}
 		
 	@RequestMapping(value="/logout")

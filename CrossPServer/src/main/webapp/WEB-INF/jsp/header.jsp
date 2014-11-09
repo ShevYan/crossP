@@ -37,10 +37,14 @@
               </ul>
             </li>
             </sec:authorize>
-            <li><a href="/about.html">About</a></li>
-            <li style="margin-left: 600px;"><a href="/login">Sign In</a></li>
-            <sec:authorize var="authorized" url="/logout"><li><a href="/logout">Logout</a></li></sec:authorize>
+            <li><a href="/about.html">About</a></li>            
+            <sec:authorize var="authorized" url="/logout">
+            	<li  style="margin-left: 460px;"><a href="/notify/message">Messages <span class="badge">42</span></a></li>
+            	<li><a href="/setting/home">Setting</a></li>
+            	<li><a href="/logout">Logout</a></li>
+           	</sec:authorize>
            	<c:if test="${not authorized}">
+           		<li style="margin-left: 680px;"><a href="/login">Sign In</a></li>
 			    <li><a href="/register">Sign Up</a></li>
 			</c:if>  
       </ul>

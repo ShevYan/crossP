@@ -63,6 +63,7 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 			http.authorizeRequests()
 					.antMatchers("/api/**").hasRole("REST")	
 					.antMatchers("/user/**").hasRole("USER")
+					.antMatchers("/setting/**").hasRole("USER")
 					.antMatchers("/admin/**").hasRole("ADMIN")
 					.and()
 						.formLogin()
