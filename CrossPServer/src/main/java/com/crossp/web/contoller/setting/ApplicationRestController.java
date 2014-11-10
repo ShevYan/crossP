@@ -17,21 +17,25 @@
 package com.crossp.web.contoller.setting;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crossp.jpa.domain.Application;
 import com.crossp.jpa.service.ApplicationRepository;
 
-@RestController
+@Controller
 @RequestMapping(value="/setting/application")
 public class ApplicationRestController {
-
+	
 	@Autowired
 	private ApplicationRepository applicationRepository;
 	
-	@RequestMapping(value="/add")
-	public void home(Application app) {
+	@RequestMapping(value="/add", consumes = "application/json", method=RequestMethod.POST)
+	public @ResponseBody void add(@RequestBody Application app) {
+		System.out.println("levy test:"+app.getName());
 		applicationRepository.save(app);
 	}
 		

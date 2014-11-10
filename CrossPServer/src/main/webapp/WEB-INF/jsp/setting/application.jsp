@@ -4,7 +4,7 @@
 <head>
 <title>Setting Home Page</title>
 </head>
-<body>
+<body ng-app="SettingModule" ng-controller="ApplicationController">
   <div class="container">
   	<%@include file="../header.jsp"%>
     <div class="content">
@@ -16,19 +16,19 @@
        			<button type="button" class="btn btn-default">Add</button>
        		</div>
        		<div>       			
-       			<div>Application Name:<input type="text" name="name" value="" placeholder="Application Name" /></div>
-       			<div>Location:<input type="text" name="location" value="" placeholder="Location" /></div>
-       			<div>Function Name:<input type="text" name="function" value="" placeholder="Function Name" /></div>
-       			<div>Platform:<input type="text" name="os" value="" placeholder="Platform" /></div>
-       			<div>Platform Version:<input type="text" name="os_version" value="" placeholder="Platform Version" /></div>
-       			<div><button type="button" class="btn btn-default">Submit</button></div>       			
+       			<div>Application Name:<input type="text" ng-model="app.name" value="" placeholder="Application Name" /></div>
+       			<div>Location:<input type="text" ng-model="app.location" value="" placeholder="Location" /></div>
+       			<div>Function Name:<input type="text" ng-model="app.function" value="" placeholder="Function Name" /></div>
+       			<div>Platform:<input type="text" ng-model="app.os" value="" placeholder="Platform" /></div>
+       			<div>Platform Version:<input type="text" ng-model="app.osVersion" value="" placeholder="Platform Version" /></div>
+       			<div><button type="button" class="btn btn-default" ng-click="save(app)">Submit</button></div>       			
        		</div>
        	</div>   
     </div>
   </div>
 </body>
 
-<script type="text/javascript">
-
-</script>
+<script src="../../../js/lib/angular/angular.js"></script>
+<script src="../../../js/controllers/ApplicationController.js"></script>
+<script src="../../../js/app.js"></script>
 </html>

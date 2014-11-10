@@ -1,28 +1,25 @@
 package com.crossp.jpa.domain;
 
 
-import java.io.Serializable;
-
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
-@Entity
-public class Application implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+@Entity
+public class Application{
 
 	@Id
 	@GeneratedValue
 	private Long id;
 	
-	@Column(nullable = false)
 	private String name;
 	private String location;
 	private String function;
 	private String os;
-	private String os_version;
+	private String osVersion;
+	private Long userId;
+	
 	
 	public Long getId() {
 		return id;
@@ -54,12 +51,16 @@ public class Application implements Serializable {
 	public void setOs(String os) {
 		this.os = os;
 	}
-	public String getOs_version() {
-		return os_version;
+	public String getOsVersion() {
+		return osVersion;
 	}
-	public void setOs_version(String os_version) {
-		this.os_version = os_version;
+	public void setOsVersion(String osVersion) {
+		this.osVersion = osVersion;
 	}
-
-	
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
 }
