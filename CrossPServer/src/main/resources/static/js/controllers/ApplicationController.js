@@ -10,13 +10,13 @@ var ApplicationController = function($scope, $http) {
     $scope.apps = {};
     
     $scope.fetchUserApps = function() {
-    	 $http.get('/setting/application/user').success(function(apps){
+    	 $http.get('/setting/app/user').success(function(apps){
              $scope.apps = apps;
          });
 	}
     
     $scope.save = function(app) {
-    	$http.post('/setting/application/add', app).success(function() {
+    	$http.post('/setting/app/add', app).success(function() {
     		$scope.msg = "Add Successful!";
     		$scope.app = {};
     		$scope.fetchAll();
@@ -27,7 +27,7 @@ var ApplicationController = function($scope, $http) {
 	}
     
     $scope.removeApp = function(id) {
-    	$http.delete('/setting/application/' + id).success(function() {
+    	$http.delete('/setting/app/' + id).success(function() {
     		$scope.fetchAll();
         });
 	}

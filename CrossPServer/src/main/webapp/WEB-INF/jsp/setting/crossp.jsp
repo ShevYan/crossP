@@ -10,11 +10,11 @@
     <div class="content">
     	<div style="width: 150px;float: left;"><%@include file="setting_menu.jsp"%></div>
        	<div style="float: left;margin-left: 20px;">
-       		<div>Welcome to Cross Promotion Application Management Page</div>
-       		<div ng-show="apps.length == 0">Sorry! This no application!</div>
+       		<div><h4>Welcome to Cross Promotion Application Management Page</h4></div>
+       		<div ng-show="allApps.length == 0">Sorry! This no application!</div>
        		<div>       		       		
 	       		<table class="table table-bordered table-striped ng-table"
-				        ng-show="apps.length > 0">
+				        ng-show="allApps.length > 0">
 				        <thead>
 				          <tr>
 				            <th>ID</th>
@@ -29,7 +29,7 @@
 				          </tr>
 				        </thead>
 				        <tbody>
-				          <tr ng-repeat="app in apps">
+				          <tr ng-repeat="app in allApps">
 				            <td>{{app.id}}</td>
 				            <td>{{app.name}}</td>
 				            <td>{{app.location}}</td>				            
@@ -38,9 +38,7 @@
 				            <td>{{app.policy}}</td>
 				            <td>{{app.content}}</td>
 				            <td>
-                        <label class="checkbox"> <input type="checkbox" ng-model="fgas">App1</label>
-                        <label class="checkbox"> <input type="checkbox" ng-model="asdfa">App2</label>   	
-                        <label class="checkbox"> <input type="checkbox" ng-model="sdf">App3</label> 			            
+                        <label class="checkbox" ng-repeat="up in myApps"> <input type="checkbox">{{up.name}}</label>         
 				            </td>
 				            <th>
 				               <button type="button" class="btn btn-default" ng-click="joinCrossP(app.id)">Join</button>

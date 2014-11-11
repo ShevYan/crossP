@@ -35,12 +35,6 @@ public class Application{
 	public Long getId() {
 		return id;
 	}
-	public List<Application> getApplications() {
-		return applications;
-	}
-	public void setApplications(List<Application> applications) {
-		this.applications = applications;
-	}
 	public User getUser() {
 		return user;
 	}

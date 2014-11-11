@@ -29,12 +29,17 @@ public class SettingController {
 		return "setting/home";
 	}
 	
-	@RequestMapping(value="/application")
-	public String application() {
+	@RequestMapping(value="/app/my")
+	public String my() {
 		return "setting/application";
 	}
 	
-	@RequestMapping(value="/crossp")
+	@RequestMapping(value="/app/myCp")
+	public String myCp() {
+		return "setting/application_cp";
+	}
+	
+	@RequestMapping(value="/app/crossp")
 	public String cp() {
 		return "setting/crossp";
 	}

@@ -33,7 +33,7 @@ import com.crossp.jpa.service.ApplicationRepository;
 import com.crossp.jpa.service.UserRepository;
 
 @Controller
-@RequestMapping(value="/setting/application")
+@RequestMapping(value="/setting/app")
 public class ApplicationRestController {
 	
 	@Autowired
@@ -55,7 +55,6 @@ public class ApplicationRestController {
 		return applicationRepository.findByUser(user);
 	}
 	
-	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public @ResponseBody void add(@RequestBody Application app) {
 		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -64,6 +63,12 @@ public class ApplicationRestController {
 		app.setUser(user);
 		applicationRepository.save(app);
 	}
+	
+	@RequestMapping(value="/cp/{id}")
+	public @ResponseBody Iterable<Application> findALLCPApps(@PathVariable("id") int id) {
+		return applicationRepository.findByApplicationId(id);
+	}
+	
 	
 	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.POST)
 	public @ResponseBody void joinCP(@PathVariable("wid") int wid, @PathVariable("rid") int rid) {

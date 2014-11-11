@@ -11,10 +11,14 @@
     	<div style="width: 150px;float: left;"><%@include file="setting_menu.jsp"%></div>
        	<div style="float: left;margin-left: 20px;">
        		<div><h4>Welcome to Cross Promotion Application Management Page</h4></div>
-       		<div ng-show="apps.length == 0">Sorry! This no application!</div>
+       		<div ng-show="myApps.length == 0">Sorry! This no application!</div>
+       		<div style="margin: 9px 9px 9px 815px;"> Select APP:
+       		   <select ng-model="sltApp" ng-change="fetchCPApps()" ng-options="m.name for m in myApps">
+						</select>
+       		</div>
        		<div>       		       		
 	       		<table class="table table-bordered table-striped ng-table"
-				        ng-show="apps.length > 0">
+				        ng-show="myApps.length > 0 && cpApps.length > 0">
 				        <thead>
 				          <tr>
 				            <th>ID</th>
@@ -29,7 +33,7 @@
 				          </tr>
 				        </thead>
 				        <tbody>
-				          <tr ng-repeat="app in apps">
+				          <tr ng-repeat="app in cpApps">
 				            <td>{{app.id}}</td>
 				            <td>{{app.name}}</td>
 				            <td>{{app.location}}</td>				            
@@ -65,6 +69,6 @@
 </body>
 
 <script src="../../../js/lib/angular/angular.js"></script>
-<script src="../../../js/controllers/ApplicationController.js"></script>
+<script src="../../../js/controllers/ApplicationCPController.js"></script>
 <script src="../../../js/app.js"></script>
 </html>
