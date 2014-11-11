@@ -23,7 +23,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-
 import com.crossp.jpa.domain.Authority;
 import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.AuthorityRepository;
@@ -69,6 +68,7 @@ public class HomeController {
 		Authority auth = new Authority();
 		auth.setUsername(user.getUsername());
 		auth.setAuthority("ROLE_USER");
+		user.setEnabled(true);
 		logger.info(user);
 		userRepository.save(user);
 		authorityRepository.save(auth);

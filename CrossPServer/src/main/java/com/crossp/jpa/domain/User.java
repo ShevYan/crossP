@@ -16,7 +16,7 @@ public class User{
 	private String username;
 	private String password;
 	private boolean enabled;
-	
+		
 	public long getId() {
 		return id;
 	}
@@ -41,6 +41,4 @@ public class User{
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	
 }

@@ -8,7 +8,7 @@
   	<%@include file="header.jsp"%>
     <div>
     	<form action="/register" method="POST">
-	        User Name: <input type="email" name="username" value="" placeholder="Email" />
+	        User Name: <input type="text" name="username" value="" placeholder="Email" />
 	        Password: <input type="password" name="password" placeholder="Password" />
 	        Confirm Password: <input type="password" placeholder="Confirm Password" />
 	        <input type="submit" id="register" value="Submit"

@@ -22,6 +22,7 @@ public class ApplicationJDBCService {
 	
 	private final String JOIN_CP = "insert into application_application(application_id, applications_id) values(?,?)";
 	private final String BREAK_CP = "delete from application_application where application_id =? and applications_id =?";
+	private final String SELECT_USER_APPS = "select * from application where user_id = ?";
 
 	@Autowired
 	private DataSource dataSource;

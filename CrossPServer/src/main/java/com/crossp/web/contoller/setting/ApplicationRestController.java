@@ -28,7 +28,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crossp.jdbc.service.ApplicationJDBCService;
 import com.crossp.jpa.domain.Application;
+import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.ApplicationRepository;
+import com.crossp.jpa.service.UserRepository;
 
 @Controller
 @RequestMapping(value="/setting/application")
@@ -38,22 +40,39 @@ public class ApplicationRestController {
 	private ApplicationRepository applicationRepository;
 	@Autowired
 	private ApplicationJDBCService applicationJDBC;
+	@Autowired
+	private UserRepository userRepository;
 	
 	@RequestMapping(value="/all")
 	public @ResponseBody Iterable<Application> findAll() {
 		return applicationRepository.findAll();
 	}
 	
+	@RequestMapping(value="/user")
+	public @ResponseBody Iterable<Application> findUserALLApps() {
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findByUsername(principal.getUsername());
+		return applicationRepository.findByUser(user);
+	}
+	
+	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public @ResponseBody void add(@RequestBody Application app) {
 		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		System.out.println(principal);
+		//@SessionAttributes instead of it, store it from login
+		User user = userRepository.findByUsername(principal.getUsername());
+		app.setUser(user);
 		applicationRepository.save(app);
 	}
 	
 	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.POST)
 	public @ResponseBody void joinCP(@PathVariable("wid") int wid, @PathVariable("rid") int rid) {
 		applicationJDBC.joinCP(wid, rid);
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public @ResponseBody void removeApp(@PathVariable("id") Long id) {
+		applicationRepository.delete(id);
 	}
 	
 	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.DELETE)

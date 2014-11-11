@@ -9,4 +9,5 @@ import com.crossp.jpa.domain.User;
 @Service
 public interface UserRepository extends CrudRepository<User, Long> {
 
+	public User findByUsername(String username);
 }

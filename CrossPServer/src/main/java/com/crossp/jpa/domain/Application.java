@@ -25,6 +25,7 @@ public class Application{
 	private String os;
 	private String osVersion;
 	private int policy;
+	private String content;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<Application> applications;
@@ -84,5 +85,12 @@ public class Application{
 	}
 	public void setPolicy(int policy) {
 		this.policy = policy;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
 	}	
+	
 }

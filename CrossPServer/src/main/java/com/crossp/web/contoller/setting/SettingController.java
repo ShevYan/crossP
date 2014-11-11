@@ -34,4 +34,9 @@ public class SettingController {
 		return "setting/application";
 	}
 	
+	@RequestMapping(value="/crossp")
+	public String cp() {
+		return "setting/crossp";
+	}
+	
 }

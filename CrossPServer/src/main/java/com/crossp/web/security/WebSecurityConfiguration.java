@@ -91,11 +91,12 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
+//			auth.jdbcAuthentication().dataSource(this.dataSource)
+//			.withUser("admin").password("admin").roles("ADMIN", "USER", "REST").and()
+//			.withUser("api").password("api").roles("REST").and()
+//			.withUser("user").password("user").roles("USER");
 			
-			auth.jdbcAuthentication().dataSource(this.dataSource)
-			.withUser("admin").password("admin").roles("ADMIN", "USER", "REST").and()
-			.withUser("api").password("api").roles("REST").and()
-			.withUser("user").password("user").roles("USER");
+			auth.jdbcAuthentication().dataSource(this.dataSource);
 		}
 	}
 
