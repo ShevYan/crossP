@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface CPViewController : UIViewController
-
-- (void) showCP:(UIView *)parent;
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer;
+- (void) showCP:(UIViewController *)parent;
 - (void) hideCP;
+
 @end

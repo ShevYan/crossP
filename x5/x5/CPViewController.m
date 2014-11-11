@@ -9,7 +9,8 @@
 #import "CPViewController.h"
 
 @interface CPViewController ()
-@property (nonatomic, weak) UIView *parentView;
+@property (nonatomic, strong) UIWebView *webView;
+
 @end
 
 
@@ -24,12 +25,20 @@
     return self;
 }
 
+
+//The event handling method
+- (void)handleSingleTap:(UITapGestureRecognizer *)recognizer {
+    CGPoint location = [recognizer locationInView:[recognizer.view superview]];
+    
+    //Do stuff here...
+    [self hideCP];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
     
-    
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -40,51 +49,58 @@
 
 
 ///////////
-- (void) showCP:(UIView *)parent
+- (void) showCP:(UIViewController *)parent
 {
-    self.parentView = parent;
-    self.view.alpha = 0.5;
+    [parent addChildViewController:self];
+    [parent.view addSubview:self.view];
     
-    [parent addSubview:self.view];
-    UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake( 2* parent.frame.size.width, 50, parent.frame.size.width-100, parent.frame.size.height-100)];
+    CGRect frame = parent.view.frame;
+    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake( 50, 50, frame.size.width-100, frame.size.height-100)];
+    [parent.view addSubview:self.webView];
+    
     NSURL *url = [NSURL URLWithString:@"http://10.200.78.29:8222/CpSpace/cpSpace.html"];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
-    [webView loadRequest:req];
-    [parent addSubview:webView];
+    [self.webView loadRequest:req];
+    UITapGestureRecognizer *singleFingerTap =
+    [[UITapGestureRecognizer alloc] initWithTarget:self
+                                            action:@selector(handleSingleTap:)];
+    [self.view addGestureRecognizer:singleFingerTap];
 //    [UIView animateWithDuration:10.0 animations:^{
 //        webView.alpha = 0.0;
 //        webView.alpha = 1.0;
 //    }];
 //
-    [UIView animateWithDuration:1.0 animations:^{
-        webView.frame = CGRectMake(50-20, 50, parent.frame.size.width-100, parent.frame.size.height-100);
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.2 animations:^{
-            webView.frame = CGRectMake(50+15, 50, parent.frame.size.width-100, parent.frame.size.height-100);
-        } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.2 animations:^{
-                webView.frame = CGRectMake(50-10, 50, parent.frame.size.width-100, parent.frame.size.height-100);} completion:^(BOOL finished) {
-                    [UIView animateWithDuration:0.2 animations:^{
-                        webView.frame = CGRectMake(50+5, 50, parent.frame.size.width-100, parent.frame.size.height-100);
-                    } completion:^(BOOL finished) {
-                        [UIView animateWithDuration:0.2 animations:^{
-                            webView.frame = CGRectMake(50, 50, parent.frame.size.width-100, parent.frame.size.height-100);
-                        }];
-                    }];
-                }];
-        }];
-    }];
+//    [UIView animateWithDuration:1.0 animations:^{
+//        webView.frame = CGRectMake(50-20, 50, parent.frame.size.width-100, parent.frame.size.height-100);
+//    } completion:^(BOOL finished) {
+//        [UIView animateWithDuration:0.2 animations:^{
+//            webView.frame = CGRectMake(50+15, 50, parent.frame.size.width-100, parent.frame.size.height-100);
+//        } completion:^(BOOL finished) {
+//            [UIView animateWithDuration:0.2 animations:^{
+//                webView.frame = CGRectMake(50-10, 50, parent.frame.size.width-100, parent.frame.size.height-100);} completion:^(BOOL finished) {
+//                    [UIView animateWithDuration:0.2 animations:^{
+//                        webView.frame = CGRectMake(50+5, 50, parent.frame.size.width-100, parent.frame.size.height-100);
+//                    } completion:^(BOOL finished) {
+//                        [UIView animateWithDuration:0.2 animations:^{
+//                            webView.frame = CGRectMake(50, 50, parent.frame.size.width-100, parent.frame.size.height-100);
+//                        }];
+//                    }];
+//                }];
+//        }];
+//    }];
 }
 
 
 
 - (void) hideCP
 {
+    [self.webView removeFromSuperview];
     [self.view removeFromSuperview];
-    self.parentView = nil;
+    [self removeFromParentViewController];
 }
 
 - (IBAction)clickBackground:(id)sender {
+    
     [self removeFromParentViewController];
 }
 @end
