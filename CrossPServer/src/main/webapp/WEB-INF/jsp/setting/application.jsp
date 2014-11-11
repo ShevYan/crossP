@@ -12,6 +12,36 @@
        	<div style="float: left;margin-left: 20px;">
        		<div>Welcome to Cross Promotion Application Management Page</div>
        		<div>Sorry! This no application!</div>
+       		       		
+       		<table class="table table-bordered table-striped ng-table"
+			        ng-show="apps.length > 0">
+			        <thead>
+			          <tr>
+			            <th>Name</th>
+			            <th>Type</th>
+			            <th>ID</th>
+			            <th>Allocations</th>
+			            <th>Unallocated</th>
+			            <th>Total</th>
+			            <th>CP</th>
+			          </tr>
+			        </thead>
+			        <tbody>
+			          <tr ng-repeat="app in apps">
+			            <td>{{app.name}}</td>
+			            <td>{{app.location}}</td>
+			            <td>{{app.id}}</td>
+			            <td>{{app.name}}</td>
+			            <td>{{app.name}}</td>
+			            <td>{{app.name}}</td>
+			            <th>
+			               <button type="button" class="btn btn-default" ng-click="joinCrossP(app.id)">Join</button>
+			               <button type="button" class="btn btn-default" ng-click="breakCrossP(app.id)">Break</button>
+			            </th>
+			          </tr>
+			        </tbody>
+			   </table>
+       		
        		<div>
        			<button type="button" class="btn btn-default">Add</button>
        		</div>

@@ -17,12 +17,16 @@
 package com.crossp.web.contoller.setting;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crossp.jdbc.service.ApplicationJDBCService;
 import com.crossp.jpa.domain.Application;
 import com.crossp.jpa.service.ApplicationRepository;
 
@@ -32,11 +36,29 @@ public class ApplicationRestController {
 	
 	@Autowired
 	private ApplicationRepository applicationRepository;
+	@Autowired
+	private ApplicationJDBCService applicationJDBC;
 	
-	@RequestMapping(value="/add", consumes = "application/json", method=RequestMethod.POST)
+	@RequestMapping(value="/all")
+	public @ResponseBody Iterable<Application> findAll() {
+		return applicationRepository.findAll();
+	}
+	
+	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public @ResponseBody void add(@RequestBody Application app) {
-		System.out.println("levy test:"+app.getName());
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		System.out.println(principal);
 		applicationRepository.save(app);
+	}
+	
+	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.POST)
+	public @ResponseBody void joinCP(@PathVariable("wid") int wid, @PathVariable("rid") int rid) {
+		applicationJDBC.joinCP(wid, rid);
+	}
+	
+	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.DELETE)
+	public @ResponseBody void breakCP(@PathVariable("wid") int wid, @PathVariable("rid") int rid) {
+		applicationJDBC.breakCP(wid, rid);
 	}
 		
 }

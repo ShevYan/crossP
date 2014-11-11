@@ -1,12 +1,18 @@
 package com.crossp.jpa.domain;
 
 
+import java.util.List;
+
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name="application")
 public class Application{
 
 	@Id
@@ -18,11 +24,27 @@ public class Application{
 	private String function;
 	private String os;
 	private String osVersion;
-	private Long userId;
+	private int policy;
 	
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<Application> applications;
+	@ManyToOne
+	private User user;
 	
 	public Long getId() {
 		return id;
+	}
+	public List<Application> getApplications() {
+		return applications;
+	}
+	public void setApplications(List<Application> applications) {
+		this.applications = applications;
+	}
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -57,10 +79,10 @@ public class Application{
 	public void setOsVersion(String osVersion) {
 		this.osVersion = osVersion;
 	}
-	public Long getUserId() {
-		return userId;
+	public int getPolicy() {
+		return policy;
 	}
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+	public void setPolicy(int policy) {
+		this.policy = policy;
+	}	
 }
