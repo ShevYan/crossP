@@ -39,6 +39,16 @@ public class SettingController {
 		return "setting/application_cp";
 	}
 	
+	@RequestMapping(value="/app/myCpSpace")
+	public String myCpSpace() {
+		return "setting/application_space";
+	}
+	
+	@RequestMapping(value="/app/myCpItem")
+	public String myCpItem() {
+		return "setting/application_item";
+	}
+	
 	@RequestMapping(value="/app/crossp")
 	public String cp() {
 		return "setting/crossp";

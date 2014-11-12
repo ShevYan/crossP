@@ -12,8 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="application")
-public class Application{
+@Table(name="app")
+public class App{
 
 	@Id
 	@GeneratedValue
@@ -28,7 +28,7 @@ public class Application{
 	private String content;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Application> applications;
+	private List<App> apps;
 	@ManyToOne
 	private User user;
 	

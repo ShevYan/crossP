@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class ApplicationJDBCService {
+public class AppJDBCService {
 
 	private Log log = LogFactory.getLog(getClass());
 	

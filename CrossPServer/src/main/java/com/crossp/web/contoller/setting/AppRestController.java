@@ -26,50 +26,53 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crossp.jdbc.service.ApplicationJDBCService;
-import com.crossp.jpa.domain.Application;
+import com.crossp.jdbc.service.AppJDBCService;
+import com.crossp.jpa.domain.App;
 import com.crossp.jpa.domain.User;
-import com.crossp.jpa.service.ApplicationRepository;
+import com.crossp.jpa.service.AppRepository;
 import com.crossp.jpa.service.UserRepository;
 
 @Controller
 @RequestMapping(value="/setting/app")
-public class ApplicationRestController {
+public class AppRestController {
 	
 	@Autowired
-	private ApplicationRepository applicationRepository;
+	private AppRepository appRepository;
 	@Autowired
-	private ApplicationJDBCService applicationJDBC;
+	private AppJDBCService applicationJDBC;
 	@Autowired
 	private UserRepository userRepository;
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<Application> findAll() {
-		return applicationRepository.findAll();
+	public @ResponseBody Iterable<App> findAll() {
+		return appRepository.findAll();
 	}
 	
 	@RequestMapping(value="/user")
-	public @ResponseBody Iterable<Application> findUserALLApps() {
+	public @ResponseBody Iterable<App> findUserALLApps() {
 		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByUsername(principal.getUsername());
-		return applicationRepository.findByUser(user);
+		return appRepository.findByUser(user);
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody Application app) {
+	public @ResponseBody void add(@RequestBody App app) {
 		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//@SessionAttributes instead of it, store it from login
 		User user = userRepository.findByUsername(principal.getUsername());
 		app.setUser(user);
-		applicationRepository.save(app);
+		appRepository.save(app);
 	}
 	
 	@RequestMapping(value="/cp/{id}")
-	public @ResponseBody Iterable<Application> findALLCPApps(@PathVariable("id") int id) {
-		return applicationRepository.findByApplicationId(id);
+	public @ResponseBody Iterable<App> findALLCPApps(@PathVariable("id") int id) {
+		return appRepository.findByApplicationId(id);
 	}
 	
-	
+	@RequestMapping(value="/cp/unjoin/{id}")
+	public @ResponseBody Iterable<App> findUnJoinCPApps(@PathVariable("id") int id) {
+		return appRepository.findUnJoinByApplicationId(id);
+	}
 	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.POST)
 	public @ResponseBody void joinCP(@PathVariable("wid") int wid, @PathVariable("rid") int rid) {
 		applicationJDBC.joinCP(wid, rid);
@@ -77,7 +80,7 @@ public class ApplicationRestController {
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public @ResponseBody void removeApp(@PathVariable("id") Long id) {
-		applicationRepository.delete(id);
+		appRepository.delete(id);
 	}
 	
 	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.DELETE)

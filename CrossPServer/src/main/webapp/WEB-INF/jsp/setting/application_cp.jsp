@@ -12,7 +12,7 @@
        	<div style="float: left;margin-left: 20px;">
        		<div><h4>Welcome to Cross Promotion Application Management Page</h4></div>
        		<div ng-show="myApps.length == 0">Sorry! This no application!</div>
-       		<div style="margin: 9px 9px 9px 815px;"> Select APP:
+       		<div style="margin: 9px 9px 9px 815px;"> My Apps:
        		   <select ng-model="sltApp" ng-change="fetchCPApps()" ng-options="m.name for m in myApps">
 						</select>
        		</div>
@@ -28,7 +28,7 @@
 				            <th>OS Version</th>
 				            <th>Policy</th>
 				            <th>Content</th>
-				            <th>CPC</th>
+				            <th>CpSpace Count</th>
 				            <th>Operate</th>
 				          </tr>
 				        </thead>
@@ -43,32 +43,18 @@
 				            <td>{{app.content}}</td>
 				            <td>0</td>
 				            <th>
-				               <button type="button" class="btn btn-default" ng-click="removeApp(app.id)">Remove</button>
+				               <button type="button" class="btn btn-default" ng-click="breakCrossP(app.id)">Break</button>
 				            </th>
 				          </tr>
 				        </tbody>
 				   </table>
-			   </div>
-       		
-       		<div>
-       			<button type="button" class="btn btn-default" ng-click="hiddenShow=!hiddenShow">Add</button>
-       		</div>
-       		<div ng-show="hiddenShow">       			
-       			<div>Application Name:<input type="text" ng-model="app.name" value="" placeholder="Application Name" /></div>
-       			<div>Location:<input type="text" ng-model="app.location" value="" placeholder="Location" /></div>
-       			<div>Function Name:<input type="text" ng-model="app.function" value="" placeholder="Function Name" /></div>
-       			<div>Platform:<input type="text" ng-model="app.os" value="" placeholder="Platform" /></div>
-       			<div>Platform Version:<input type="text" ng-model="app.osVersion" value="" placeholder="Platform Version" /></div>
-       			<div>Policy:<input type="text" ng-model="app.policy" value="" placeholder="Platform Version" /></div>
-       			<div>Content:<input type="text" ng-model="app.content" value="" placeholder="Platform Version" /></div>
-       			<div><button type="button" class="btn btn-default" ng-click="save(app)">Submit</button></div>       			
-       		</div>
+			   </div>  		
        	</div>   
     </div>
   </div>
 </body>
 
 <script src="../../../js/lib/angular/angular.js"></script>
-<script src="../../../js/controllers/ApplicationCPController.js"></script>
+<script src="../../../js/controllers/AppCPController.js"></script>
 <script src="../../../js/app.js"></script>
 </html>

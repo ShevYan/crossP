@@ -26,6 +26,12 @@ var ApplicationController = function($scope, $http) {
         });
 	}
     
+    $scope.breakCrossP = function(id) {
+    	$http.delete('/setting/app/cp/' + $scope.sltApp.id + '/' + id).success(function() {
+    		$scope.fetchCPApps();
+        });
+	}
+    
     $scope.fetchUserApps();
     
 };

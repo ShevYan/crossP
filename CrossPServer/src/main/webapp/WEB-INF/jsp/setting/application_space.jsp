@@ -12,6 +12,10 @@
        	<div style="float: left;margin-left: 20px;">
        		<div><h4>Welcome to Cross Promotion Application Management Page</h4></div>
        		<div ng-show="apps.length == 0">Sorry! This no application!</div>
+       		<div style="margin: 9px 9px 9px 815px;"> My Apps:
+             <select ng-model="sltApp" ng-change="fetchCPApps()" ng-options="m.name for m in myApps">
+            </select>
+          </div>
        		<div style="width: 965px;">       		       		
 	       		<table class="table table-bordered table-striped ng-table"
 				        ng-show="apps.length > 0">
@@ -54,16 +58,14 @@
        		
        		<div>
        			<button type="button" class="btn btn-default" ng-click="hiddenShow=!hiddenShow">Add</button>
-       		</div>
+       		</div>  
        		<div ng-show="hiddenShow">       			
-       			<div>Application Name:<input type="text" ng-model="app.name" value="" placeholder="Application Name" /></div>
-       			<div>Location:<input type="text" ng-model="app.location" value="" placeholder="Location" /></div>
-       			<div>Function Name:<input type="text" ng-model="app.function" value="" placeholder="Function Name" /></div>
-       			<div>Platform:<input type="text" ng-model="app.os" value="" placeholder="Platform" /></div>
-       			<div>Platform Version:<input type="text" ng-model="app.osVersion" value="" placeholder="Platform Version" /></div>
-       			<div>Policy:<input type="text" ng-model="app.policy" value="" placeholder="Platform Version" /></div>
-       			<div>Content:<input type="text" ng-model="app.content" value="" placeholder="Platform Version" /></div>
-       			<div><button type="button" class="btn btn-default" ng-click="save(app)">Submit</button></div>       			
+       			<div>AppSpace Name:<input type="text" ng-model="appSpace.name" value="" placeholder="AppSpace Name" /></div>
+       			<div>Position:<input type="text" ng-model="appSpace.position" value="" placeholder="x, y, width, height" /></div>
+       			<div>Display Mode:<input type="text" ng-model="appSpace.displayMode" value="" placeholder="Web/UI" /></div>
+       			<div>Display Action:<input type="text" ng-model="appSpace.displayAction" value="" placeholder="Event Trigger/Login" /></div>
+       			<div>Display Time:<input type="text" ng-model="appSpace.displayTime" value="" placeholder="How long will be display" /></div>
+       			<div><button type="button" class="btn btn-default" ng-click="save(appSpace)">Submit</button></div>       			
        		</div>
        	</div>   
     </div>
@@ -71,6 +73,6 @@
 </body>
 
 <script src="../../../js/lib/angular/angular.js"></script>
-<script src="../../../js/controllers/AppController.js"></script>
+<script src="../../../js/controllers/AppSpaceController.js"></script>
 <script src="../../../js/app.js"></script>
 </html>

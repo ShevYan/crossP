@@ -19,11 +19,10 @@ var ApplicationController = function($scope, $http) {
     	$http.post('/setting/app/add', app).success(function() {
     		$scope.msg = "Add Successful!";
     		$scope.app = {};
-    		$scope.fetchAll();
+    		$scope.fetchUserApps();
         }).error(function() {
             $scope.msg = 'Could not add a new application';
         });
-    	
 	}
     
     $scope.removeApp = function(id) {
@@ -31,6 +30,5 @@ var ApplicationController = function($scope, $http) {
     		$scope.fetchAll();
         });
 	}
-    
     $scope.fetchUserApps();
 };
