@@ -10,11 +10,23 @@
 
 @interface CPViewController ()
 @property (nonatomic, strong) UIWebView *webView;
-
+@property (nonatomic, copy) NSString *appID;
+@property (nonatomic) BOOL isReady;
+@property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @end
 
 
 @implementation CPViewController
+
++ (instancetype) sharedInstance {
+    static CPViewController *instance = nil;
+    
+    if (nil == instance) {
+        instance = [[self alloc] init];
+    }
+    
+    return instance;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -31,13 +43,13 @@
     CGPoint location = [recognizer locationInView:[recognizer.view superview]];
     
     //Do stuff here...
-    [self hideCP];
+    [self cpHide];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self cpInit:@""];
 
 }
 
@@ -49,14 +61,46 @@
 
 
 ///////////
-- (void) showCP:(UIViewController *)parent
-{
-    [parent addChildViewController:self];
-    [parent.view addSubview:self.view];
+- (void) cpInit:(NSString *)appID {
+    self.appID = appID;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.200.78.29:8222/app.json"]];
+        NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        NSError *jsonParsingError = nil;
+        NSArray *jsonArr = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonParsingError];
+//        if (data != nil) {
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                self.imageView.image = image;
+//            });
+//        }  
+    });
+}
+
+- (void) cpUninit {
+    self.appID = nil;
+}
+
+- (void) cpFetchAsync {
     
-    CGRect frame = parent.view.frame;
+}
+
+- (BOOL) cpIsReady {
+    return self.isReady;
+}
+
+- (void) cpShow:(UIViewController *)parentCtrl
+{
+//    if (![self cpIsReady]) {
+//        NSLog(@"CP is not ready! Return directly.");
+//        return ;
+//    }
+    
+    [parentCtrl addChildViewController:self];
+    [parentCtrl.view addSubview:self.view];
+    
+    CGRect frame = parentCtrl.view.frame;
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake( 50, 50, frame.size.width-100, frame.size.height-100)];
-    [parent.view addSubview:self.webView];
+    [parentCtrl.view addSubview:self.webView];
     
     NSURL *url = [NSURL URLWithString:@"http://10.200.78.29:8222/CpSpace/cpSpace.html"];
     NSURLRequest *req = [NSURLRequest requestWithURL:url];
@@ -90,17 +134,11 @@
 //    }];
 }
 
-
-
-- (void) hideCP
+- (void) cpHide
 {
     [self.webView removeFromSuperview];
     [self.view removeFromSuperview];
     [self removeFromParentViewController];
 }
 
-- (IBAction)clickBackground:(id)sender {
-    
-    [self removeFromParentViewController];
-}
 @end

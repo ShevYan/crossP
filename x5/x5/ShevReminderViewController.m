@@ -72,6 +72,6 @@
     CPViewController *cpvc = [[CPViewController alloc] init];
 //    [self addChildViewController:cpvc];
 //    [self.view addSubview:cpvc.view];
-    [cpvc showCP:self];
+    [cpvc cpShow:self];
 }
 @end
