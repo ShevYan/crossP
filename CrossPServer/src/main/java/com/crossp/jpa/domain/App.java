@@ -13,7 +13,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="application")
-public class Application{
+public class App{
 
 	@Id
 	@GeneratedValue
@@ -28,7 +28,7 @@ public class Application{
 	private String content;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	private List<Application> applications;
+	private List<App> applications;
 	@ManyToOne
 	private User user;
 	

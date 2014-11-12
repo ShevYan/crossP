@@ -55,6 +55,6 @@
 </body>
 
 <script src="../../../js/lib/angular/angular.js"></script>
-<script src="../../../js/controllers/ApplicationCPController.js"></script>
+<script src="../../../js/controllers/AppCPController.js"></script>
 <script src="../../../js/app.js"></script>
 </html>

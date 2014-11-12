@@ -71,6 +71,6 @@
 </body>
 
 <script src="../../../js/lib/angular/angular.js"></script>
-<script src="../../../js/controllers/ApplicationController.js"></script>
+<script src="../../../js/controllers/AppController.js"></script>
 <script src="../../../js/app.js"></script>
 </html>

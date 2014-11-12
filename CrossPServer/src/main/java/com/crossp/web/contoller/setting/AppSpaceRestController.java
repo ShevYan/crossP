@@ -16,42 +16,31 @@
 
 package com.crossp.web.contoller.setting;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.crossp.jdbc.service.AppJDBCService;
+import com.crossp.jpa.service.AppRepository;
+import com.crossp.jpa.service.UserRepository;
 
 @Controller
-@RequestMapping(value="/setting")
-public class SettingController {
-
+@RequestMapping(value="/setting/app/space")
+public class AppSpaceRestController {
 	
-	@RequestMapping(value="/home")
-	public String home() {
-		return "setting/home";
+	@Autowired
+	private AppRepository appRepository;
+	@Autowired
+	private AppJDBCService appJDBCService;
+	@Autowired
+	private UserRepository userRepository;
+			
+	@RequestMapping(value="/{id}")
+	public @ResponseBody String fetchAppSpaces(@PathVariable("id") int id) {
+		
+		return "";
 	}
-	
-	@RequestMapping(value="/app/my")
-	public String my() {
-		return "setting/application";
-	}
-	
-	@RequestMapping(value="/app/myCp")
-	public String myCp() {
-		return "setting/application_cp";
-	}
-	
-	@RequestMapping(value="/app/myCpSpace")
-	public String myCpSpace() {
-		return "setting/application_space";
-	}
-	
-	@RequestMapping(value="/app/myCpItem")
-	public String myCpItem() {
-		return "setting/application_item";
-	}
-	
-	@RequestMapping(value="/app/crossp")
-	public String cp() {
-		return "setting/crossp";
-	}
-	
+		
 }

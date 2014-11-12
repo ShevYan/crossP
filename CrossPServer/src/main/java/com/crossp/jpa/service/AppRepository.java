@@ -6,21 +6,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Service;
 
-import com.crossp.jpa.domain.Application;
+import com.crossp.jpa.domain.App;
 import com.crossp.jpa.domain.User;
 
 
 @Service
-public interface ApplicationRepository extends CrudRepository<Application, Long> {
+public interface AppRepository extends CrudRepository<App, Long> {
 
-	public List<Application> findByUser(User user);
+	public List<App> findByUser(User user);
 	
 	@Query(value = "select * from application c where c.id in "
 			+ "(select b.applications_id from application a, application_application b where a.id=b.application_id and a.id = ?)", nativeQuery=true)
-	public List<Application> findByApplicationId(int id);
+	public List<App> findByApplicationId(int id);
 	
 	@Query(value = "select * from application c where c.id not in "
 			+ "(select b.applications_id from application a, application_application b where a.id=b.application_id and a.id = ?);", nativeQuery=true)
-	public List<Application> findUnJoinByApplicationId(int id);
+	public List<App> findUnJoinByApplicationId(int id);
 
 }

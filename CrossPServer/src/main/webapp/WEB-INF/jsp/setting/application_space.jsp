@@ -12,6 +12,10 @@
        	<div style="float: left;margin-left: 20px;">
        		<div><h4>Welcome to Cross Promotion Application Management Page</h4></div>
        		<div ng-show="apps.length == 0">Sorry! This no application!</div>
+       		<div style="margin: 9px 9px 9px 815px;"> My Apps:
+             <select ng-model="sltApp" ng-change="fetchCPApps()" ng-options="m.name for m in myApps">
+            </select>
+          </div>
        		<div style="width: 965px;">       		       		
 	       		<table class="table table-bordered table-striped ng-table"
 				        ng-show="apps.length > 0">
@@ -71,6 +75,6 @@
 </body>
 
 <script src="../../../js/lib/angular/angular.js"></script>
-<script src="../../../js/controllers/ApplicationController.js"></script>
+<script src="../../../js/controllers/AppSpaceController.js"></script>
 <script src="../../../js/app.js"></script>
 </html>
