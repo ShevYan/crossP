@@ -4,52 +4,39 @@
 <head>
 <title>Setting Home Page</title>
 </head>
-<body ng-app="SettingModule" ng-controller="ApplicationController">
+<body ng-app="SettingModule" ng-controller="AppSpaceController">
   <div class="container">
   	<%@include file="../header.jsp"%>
     <div class="content">
     	<div style="width: 150px;float: left;"><%@include file="setting_menu.jsp"%></div>
        	<div style="float: left;margin-left: 20px;">
        		<div><h4>Welcome to Cross Promotion Application Management Page</h4></div>
-       		<div ng-show="apps.length == 0">Sorry! This no application!</div>
-       		<div style="margin: 9px 9px 9px 815px;"> My Apps:
-             <select ng-model="sltApp" ng-change="fetchCPApps()" ng-options="m.name for m in myApps">
-            </select>
-          </div>
+       		<div ng-show="mySpaces.length == 0">Sorry! This no application space!</div>
        		<div style="width: 965px;">       		       		
 	       		<table class="table table-bordered table-striped ng-table"
-				        ng-show="apps.length > 0">
+				        ng-show="mySpaces.length > 0">
 				        <thead>
 				          <tr>
 				            <th>ID</th>
 				            <th>Name</th>
-				            <th>Location</th>
-				            <th>OS</th>
-				            <th>OS Version</th>
 				            <th>Position</th>
-				            <th>Policy</th>
-				            <th>Content</th>
-				            <th>CpSpace</th>
-				            <th>CpItem</th>
-				            <th>CP</th>
+				            <th>Display Mode</th>
+				            <th>Display Action</th>
+				            <th>Display Time</th>
 				            <th>Operate</th>
 				          </tr>
 				        </thead>
 				        <tbody>
-				          <tr ng-repeat="app in apps">
-				            <td>{{app.id}}</td>
-				            <td>{{app.name}}</td>
-				            <td>{{app.location}}</td>				            
-				            <td>{{app.os}}</td>
-				            <td>{{app.osVersion}}</td>
-				            <td>0,0,150,20</td>
-				            <td>{{app.policy}}</td>
-				            <td>{{app.content}}</td>
-				            <td>1</td>
-				            <td>3</td>
-				            <td>0</td>
+				          <tr ng-repeat="space in mySpaces">
+				            <td>{{space.id}}</td>
+				            <td>{{space.name}}</td>
+				            <td>{{space.position}}</td>				            
+				            <td>{{space.displayMode}}</td>
+				            <td>{{space.displayAction}}</td>
+				            <td>{{space.displayTime}}</td>
 				            <th>
-				               <button type="button" class="btn btn-default" ng-click="removeApp(app.id)">Remove</button>
+				               <button type="button" class="btn btn-default" ng-click="change()">Edit</button>
+				               <button type="button" class="btn btn-default" ng-click="removeAppSpace(space.id)">Remove</button>
 				            </th>
 				          </tr>
 				        </tbody>
@@ -57,7 +44,7 @@
 			   </div>
        		
        		<div>
-       			<button type="button" class="btn btn-default" ng-click="hiddenShow=!hiddenShow">Add</button>
+       			<button type="button" class="btn btn-default" ng-click="hiddenShow=!hiddenShow">Add</button>       			
        		</div>  
        		<div ng-show="hiddenShow">       			
        			<div>AppSpace Name:<input type="text" ng-model="appSpace.name" value="" placeholder="AppSpace Name" /></div>

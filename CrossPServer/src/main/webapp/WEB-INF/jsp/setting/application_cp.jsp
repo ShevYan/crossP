@@ -4,7 +4,7 @@
 <head>
 <title>Setting Home Page</title>
 </head>
-<body ng-app="SettingModule" ng-controller="ApplicationController">
+<body ng-app="SettingModule" ng-controller="AppCPController">
   <div class="container">
   	<%@include file="../header.jsp"%>
     <div class="content">

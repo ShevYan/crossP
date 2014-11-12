@@ -4,7 +4,7 @@
  * SettingController
  * @constructor
  */
-var ApplicationController = function($scope, $http) {
+var AppCPController = function($scope, $http) {
 	
     $scope.myApps = {};
     $scope.cpApps = {};

@@ -1,9 +1,13 @@
 package com.crossp.jpa.domain;
 
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -13,13 +17,15 @@ public class AppItem{
 	@Id
 	@GeneratedValue
 	private Long id;
-	
 	private String name;
-	private String content;
-	private String imgUrl;
-	private String template;
-	private String targetTemplate;
-	private String downloadUrl;
+	private String appId;
+	private String icon;
+	private String type;
+	private String desc;
+	@ManyToOne
+	private User user;
+	@ManyToMany
+	private List<AppSpace> appSpaces;
 	public Long getId() {
 		return id;
 	}
@@ -32,36 +38,32 @@ public class AppItem{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getContent() {
-		return content;
+	public String getAppId() {
+		return appId;
 	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
-	public String getImgUrl() {
-		return imgUrl;
+	public String getIcon() {
+		return icon;
 	}
-	public void setImgUrl(String imgUrl) {
-		this.imgUrl = imgUrl;
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
-	public String getTemplate() {
-		return template;
+	public String getType() {
+		return type;
 	}
-	public void setTemplate(String template) {
-		this.template = template;
+	public void setType(String type) {
+		this.type = type;
 	}
-	public String getTargetTemplate() {
-		return targetTemplate;
+	public String getDesc() {
+		return desc;
 	}
-	public void setTargetTemplate(String targetTemplate) {
-		this.targetTemplate = targetTemplate;
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
-	public String getDownloadUrl() {
-		return downloadUrl;
+	public void setUser(User user) {
+		this.user = user;
 	}
-	public void setDownloadUrl(String downloadUrl) {
-		this.downloadUrl = downloadUrl;
-	}
-	
 	
 }

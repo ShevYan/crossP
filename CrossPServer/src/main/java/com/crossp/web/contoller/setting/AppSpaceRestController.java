@@ -17,6 +17,8 @@
 package com.crossp.web.contoller.setting;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,29 +26,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crossp.jdbc.service.AppJDBCService;
 import com.crossp.jpa.domain.AppSpace;
-import com.crossp.jpa.service.AppRepository;
+import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.AppSpaceRepository;
+import com.crossp.jpa.service.UserRepository;
 
 @Controller
 @RequestMapping(value="/setting/app/space")
 public class AppSpaceRestController {
 	
 	@Autowired
-	private AppRepository appRepository;
-	@Autowired
-	private AppJDBCService appJDBCService;
-	@Autowired
 	private AppSpaceRepository appSpaceRepository;
-			
-	@RequestMapping(value="/{id}")
-	public @ResponseBody Iterable<AppSpace> fetchAppSpaces(@PathVariable("id") int id) {
-		return appSpaceRepository.findAll();
+	@Autowired
+	private UserRepository userRepository;
+					
+	@RequestMapping(value="/all")
+	public @ResponseBody Iterable<AppSpace> findUserAppSpaces() {
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findByUsername(principal.getUsername());
+		return appSpaceRepository.findByUser(user);
 	}
-		
+	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public @ResponseBody void add(@RequestBody AppSpace appSpace) {
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		//@SessionAttributes instead of it, store it from login
+		User user = userRepository.findByUsername(principal.getUsername());
+		appSpace.setUser(user);
 		appSpaceRepository.save(appSpace);
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	public @ResponseBody void removeAppSpace(@PathVariable("id") Long id) {
+		appSpaceRepository.delete(id);
 	}
 }

@@ -4,28 +4,18 @@
  * SettingController
  * @constructor
  */
-var ApplicationController = function($scope, $http) {
+var AppSpaceController = function($scope, $http) {
 	
-    $scope.myApps = {};
+	$scope.hiddenShow= true;
     $scope.mySpaces = {};
-    $scope.sltApp = {};
     
-    //TO BE REMOVE    
-    $scope.cpApps = {};
+    $scope.change = function() {
+    	$scope.hiddenShow = !$scope.hiddenShow;
+  	}
     
-    
-    $scope.fetchUserApps = function() {
-   	 $http.get('/setting/app/user').success(function(apps){
-            $scope.myApps = apps;
-            if (apps.length > 0) {
-           	 $scope.sltApp = apps[0];
-           	 $scope.fetchAppSpaces();
-			 }
-        });
-	}
     
     $scope.fetchAppSpaces = function() {
-      	 $http.get('/setting/app/space/' + $scope.sltApp.id).success(function(spaces){
+      	 $http.get('/setting/app/space/all').success(function(spaces){
                $scope.mySpaces = spaces;
            });
    	}
@@ -40,5 +30,11 @@ var ApplicationController = function($scope, $http) {
     	
 	}
     
-    $scope.fetchUserApps();    
+    $scope.removeAppSpace = function(id) {
+    	$http.delete('/setting/app/space/' + id).success(function() {
+    		$scope.fetchAppSpaces();
+        });
+	}
+    
+    $scope.fetchAppSpaces();    
 };

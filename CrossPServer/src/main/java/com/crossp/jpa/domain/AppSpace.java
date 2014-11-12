@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -26,6 +27,8 @@ public class AppSpace{
 	
 	@ManyToMany
 	private List<App> apps;
+	@ManyToOne
+	private User user;
 	
 	public Long getId() {
 		return id;
@@ -76,7 +79,8 @@ public class AppSpace{
 	}
 	public void setDisplayCount(int displayCount) {
 		this.displayCount = displayCount;
+	}
+	public void setUser(User user) {
+		this.user = user;
 	} 
-	
-	
 }
