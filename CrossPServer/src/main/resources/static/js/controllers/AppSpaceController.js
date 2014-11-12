@@ -25,17 +25,20 @@ var ApplicationController = function($scope, $http) {
 	}
     
     $scope.fetchAppSpaces = function() {
-      	 $http.get('/setting/app/space' + $scope.sltApp.id).success(function(spaces){
+      	 $http.get('/setting/app/space/' + $scope.sltApp.id).success(function(spaces){
                $scope.mySpaces = spaces;
            });
    	}
     
-    $scope.fetchCPApps = function() {
-   	 $http.get('/setting/app/cp/' + $scope.sltApp.id).success(function(apps){
-            $scope.cpApps = apps;
+    $scope.save = function(app) {
+    	$http.post('/setting/app/space/' + $scope.sltApp.id + '/add', app).success(function() {
+    		$scope.msg = "Add Successful!";
+    		$scope.fetchAppSpaces();
+        }).error(function() {
+            $scope.msg = 'Could not add a new application';
         });
+    	
 	}
     
-    $scope.fetchUserApps();
-    
+    $scope.fetchUserApps();    
 };

@@ -1,10 +1,12 @@
 package com.crossp.jpa.domain;
 
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -22,8 +24,8 @@ public class AppSpace{
 	private int displayCount;
 	private int dispayTime;
 	
-	@ManyToOne
-	private App app;
+	@ManyToMany
+	private List<App> apps;
 	
 	public Long getId() {
 		return id;

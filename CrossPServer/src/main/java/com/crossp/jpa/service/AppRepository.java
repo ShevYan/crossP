@@ -15,12 +15,12 @@ public interface AppRepository extends CrudRepository<App, Long> {
 
 	public List<App> findByUser(User user);
 	
-	@Query(value = "select * from application c where c.id in "
-			+ "(select b.applications_id from application a, application_application b where a.id=b.application_id and a.id = ?)", nativeQuery=true)
+	@Query(value = "select * from app c where c.id in "
+			+ "(select b.apps_id from application a, app_app b where a.id=b.app_id and a.id = ?)", nativeQuery=true)
 	public List<App> findByApplicationId(int id);
 	
-	@Query(value = "select * from application c where c.id not in "
-			+ "(select b.applications_id from application a, application_application b where a.id=b.application_id and a.id = ?);", nativeQuery=true)
+	@Query(value = "select * from app c where c.id not in "
+			+ "(select b.apps_id from app a, app_app b where a.id=b.app_id and a.id = ?);", nativeQuery=true)
 	public List<App> findUnJoinByApplicationId(int id);
 
 }

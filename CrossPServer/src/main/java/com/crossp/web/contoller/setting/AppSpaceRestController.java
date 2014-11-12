@@ -19,12 +19,15 @@ package com.crossp.web.contoller.setting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crossp.jdbc.service.AppJDBCService;
+import com.crossp.jpa.domain.AppSpace;
 import com.crossp.jpa.service.AppRepository;
-import com.crossp.jpa.service.UserRepository;
+import com.crossp.jpa.service.AppSpaceRepository;
 
 @Controller
 @RequestMapping(value="/setting/app/space")
@@ -35,12 +38,15 @@ public class AppSpaceRestController {
 	@Autowired
 	private AppJDBCService appJDBCService;
 	@Autowired
-	private UserRepository userRepository;
+	private AppSpaceRepository appSpaceRepository;
 			
 	@RequestMapping(value="/{id}")
-	public @ResponseBody String fetchAppSpaces(@PathVariable("id") int id) {
-		
-		return "";
+	public @ResponseBody Iterable<AppSpace> fetchAppSpaces(@PathVariable("id") int id) {
+		return appSpaceRepository.findAll();
 	}
 		
+	@RequestMapping(value="/add", method=RequestMethod.POST)
+	public @ResponseBody void add(@RequestBody AppSpace appSpace) {
+		appSpaceRepository.save(appSpace);
+	}
 }

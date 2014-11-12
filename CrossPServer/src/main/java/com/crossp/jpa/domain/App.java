@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="application")
+@Table(name="app")
 public class App{
 
 	@Id
@@ -28,7 +28,7 @@ public class App{
 	private String content;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	private List<App> applications;
+	private List<App> apps;
 	@ManyToOne
 	private User user;
 	
