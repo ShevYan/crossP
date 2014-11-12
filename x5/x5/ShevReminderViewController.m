@@ -40,10 +40,13 @@
     return self;
 }
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -67,6 +70,8 @@
 - (IBAction)showCP:(id)sender
 {
     CPViewController *cpvc = [[CPViewController alloc] init];
-    [cpvc showCP:self.view];
+//    [self addChildViewController:cpvc];
+//    [self.view addSubview:cpvc.view];
+    [cpvc showCP:self];
 }
 @end
