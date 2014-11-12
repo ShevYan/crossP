@@ -7,14 +7,16 @@
 //
 
 #import "CPViewController.h"
+#import "ZipArchive.h"
 
 @interface CPViewController ()
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, copy) NSString *appID;
-@property (nonatomic) BOOL isReady;
+@property NSURL *webUrl;
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @end
 
+#define REQ_URI @"http://www.eyeshang.com/tmp.json"
 
 @implementation CPViewController
 
@@ -49,8 +51,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    [self cpInit:@""];
-
+    self.webView = [[UIWebView alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,19 +62,11 @@
 
 
 ///////////
-- (void) cpInit:(NSString *)appID {
+- (void) cpInit:(NSString *)appID delegate:(id<CPProtocol>)delegate{
     self.appID = appID;
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://10.200.78.29:8222/app.json"]];
-        NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-        NSError *jsonParsingError = nil;
-        NSArray *jsonArr = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonParsingError];
-//        if (data != nil) {
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                self.imageView.image = image;
-//            });
-//        }  
-    });
+    self.delegate = delegate;
+
+    [self cpFetchAsync];
 }
 
 - (void) cpUninit {
@@ -81,33 +74,76 @@
 }
 
 - (void) cpFetchAsync {
-    
+    self.webUrl = nil;
+    // need to change request uri
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        // get json
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:REQ_URI]];
+        NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+        NSError *jsonParsingError = nil;
+        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonParsingError];
+        if (nil != jsonParsingError) {
+            [self.delegate cpFailedFetch:@"Failed to parse json."];
+            return ;
+        }
+        
+        // get download link
+        NSDictionary *fetchResp = [json objectForKey:@"fetchResp"];
+        NSString *downloadLink = [fetchResp objectForKey:@"DownloadLink"];
+        
+        // download zip
+        NSString *tempPath = NSTemporaryDirectory();
+        NSData *zipData = [NSData dataWithContentsOfURL:[NSURL URLWithString:downloadLink]];
+        NSString *zipFile = [tempPath stringByAppendingPathComponent: @"CpSpace.zip"];
+        [zipData writeToFile:zipFile atomically:TRUE];
+        // decompress zip
+        
+        
+        ZipArchive *za = [[ZipArchive alloc] init];
+        [za UnzipOpenFile:zipFile];
+        NSString *zipPath = [tempPath stringByAppendingPathComponent: @"CpSpace"];
+        [za UnzipFileTo:tempPath overWrite:TRUE];
+        [za UnzipCloseFile];
+        za = nil;
+        
+        // show
+        NSURL *url = [NSURL fileURLWithPath:[zipPath stringByAppendingPathComponent:@"cpSpace.html"]];
+        
+        if (url != nil) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (nil != self.delegate) {
+                    self.webUrl = url;
+                    [self.delegate cpDidFecth];
+                }
+            });
+        }
+    });
 }
 
 - (BOOL) cpIsReady {
-    return self.isReady;
+    return nil != self.webUrl;
 }
 
 - (void) cpShow:(UIViewController *)parentCtrl
 {
-//    if (![self cpIsReady]) {
-//        NSLog(@"CP is not ready! Return directly.");
-//        return ;
-//    }
+    if (![self cpIsReady]) {
+        NSLog(@"CP is not ready! Return directly.");
+        return ;
+    }
     
     [parentCtrl addChildViewController:self];
     [parentCtrl.view addSubview:self.view];
-    
-    CGRect frame = parentCtrl.view.frame;
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake( 50, 50, frame.size.width-100, frame.size.height-100)];
     [parentCtrl.view addSubview:self.webView];
     
-    NSURL *url = [NSURL URLWithString:@"http://10.200.78.29:8222/CpSpace/cpSpace.html"];
-    NSURLRequest *req = [NSURLRequest requestWithURL:url];
+    CGRect frame = parentCtrl.view.frame;
+    NSURLRequest *req = [NSURLRequest requestWithURL:self.webUrl];
     [self.webView loadRequest:req];
+    self.webView.frame = CGRectMake(20, 20, frame.size.width-40, frame.size.height-40);
+
     UITapGestureRecognizer *singleFingerTap =
     [[UITapGestureRecognizer alloc] initWithTarget:self
                                             action:@selector(handleSingleTap:)];
+    //singleFingerTap.delegate = nil;
     [self.view addGestureRecognizer:singleFingerTap];
 //    [UIView animateWithDuration:10.0 animations:^{
 //        webView.alpha = 0.0;
