@@ -31,7 +31,7 @@ var ApplicationController = function($scope, $http) {
    	}
     
     $scope.save = function(app) {
-    	$http.post('/setting/app/space/' + $scope.sltApp.id + '/add', app).success(function() {
+    	$http.post('/setting/app/space/add', app).success(function() {
     		$scope.msg = "Add Successful!";
     		$scope.fetchAppSpaces();
         }).error(function() {

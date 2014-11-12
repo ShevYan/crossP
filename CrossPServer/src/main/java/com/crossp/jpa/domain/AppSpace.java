@@ -22,7 +22,7 @@ public class AppSpace{
 	private String displayMode;
 	private String displayAction;	
 	private int displayCount;
-	private int dispayTime;
+	private int displayTime;
 	
 	@ManyToMany
 	private List<App> apps;
@@ -52,11 +52,12 @@ public class AppSpace{
 	public void setPrice(int price) {
 		this.price = price;
 	}
-	public int getDispayTime() {
-		return dispayTime;
+	
+	public int getDisplayTime() {
+		return displayTime;
 	}
-	public void setDispayTime(int dispayTime) {
-		this.dispayTime = dispayTime;
+	public void setDisplayTime(int displayTime) {
+		this.displayTime = displayTime;
 	}
 	public String getDisplayMode() {
 		return displayMode;
