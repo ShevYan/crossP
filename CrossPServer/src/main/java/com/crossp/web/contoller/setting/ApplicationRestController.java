@@ -69,7 +69,10 @@ public class ApplicationRestController {
 		return applicationRepository.findByApplicationId(id);
 	}
 	
-	
+	@RequestMapping(value="/cp/unjoin/{id}")
+	public @ResponseBody Iterable<Application> findUnJoinCPApps(@PathVariable("id") int id) {
+		return applicationRepository.findUnJoinByApplicationId(id);
+	}
 	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.POST)
 	public @ResponseBody void joinCP(@PathVariable("wid") int wid, @PathVariable("rid") int rid) {
 		applicationJDBC.joinCP(wid, rid);

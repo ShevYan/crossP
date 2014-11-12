@@ -11,10 +11,14 @@
     	<div style="width: 150px;float: left;"><%@include file="setting_menu.jsp"%></div>
        	<div style="float: left;margin-left: 20px;">
        		<div><h4>Welcome to Cross Promotion Application Management Page</h4></div>
-       		<div ng-show="allApps.length == 0">Sorry! This no application!</div>
-       		<div>       		       		
+       		<div ng-show="unJoinApps.length == 0">Sorry! This no application!</div>
+       		<div style="margin: 9px 9px 9px 815px;"> My Apps:
+             <select ng-model="sltApp" ng-change="fetchUnJoinCPApps()" ng-options="m.name for m in myApps">
+            </select>
+          </div>
+       		<div style="width: 965px;">       		       		
 	       		<table class="table table-bordered table-striped ng-table"
-				        ng-show="allApps.length > 0">
+				        ng-show="unJoinApps.length > 0">
 				        <thead>
 				          <tr>
 				            <th>ID</th>
@@ -23,13 +27,12 @@
 				            <th>OS</th>
 				            <th>OS Version</th>
 				            <th>Policy</th>
-				            <th>Content</th>
-				            <th>My Apps</th>
+				            <th>Content</th>				            
 				            <th>Operate</th>
 				          </tr>
 				        </thead>
 				        <tbody>
-				          <tr ng-repeat="app in allApps">
+				          <tr ng-repeat="app in unJoinApps">
 				            <td>{{app.id}}</td>
 				            <td>{{app.name}}</td>
 				            <td>{{app.location}}</td>				            
@@ -37,12 +40,8 @@
 				            <td>{{app.osVersion}}</td>
 				            <td>{{app.policy}}</td>
 				            <td>{{app.content}}</td>
-				            <td>
-                        <label class="checkbox" ng-repeat="up in myApps"> <input type="checkbox">{{up.name}}</label>         
-				            </td>
 				            <th>
 				               <button type="button" class="btn btn-default" ng-click="joinCrossP(app.id)">Join</button>
-				               <button type="button" class="btn btn-default" ng-click="breakCrossP(app.id)">Break</button>
 				            </th>
 				          </tr>
 				        </tbody>

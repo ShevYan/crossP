@@ -15,6 +15,12 @@ public interface ApplicationRepository extends CrudRepository<Application, Long>
 
 	public List<Application> findByUser(User user);
 	
-	@Query(value = "select a.* from application a, application_application b where a.id=b.application_id and a.id = ?", nativeQuery=true)
+	@Query(value = "select * from application c where c.id in "
+			+ "(select b.applications_id from application a, application_application b where a.id=b.application_id and a.id = ?)", nativeQuery=true)
 	public List<Application> findByApplicationId(int id);
+	
+	@Query(value = "select * from application c where c.id not in "
+			+ "(select b.applications_id from application a, application_application b where a.id=b.application_id and a.id = ?);", nativeQuery=true)
+	public List<Application> findUnJoinByApplicationId(int id);
+
 }
