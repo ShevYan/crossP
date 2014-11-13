@@ -17,8 +17,6 @@
 package com.crossp.web.contoller.setting;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,43 +24,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crossp.jpa.domain.AppItem;
-import com.crossp.jpa.domain.User;
-import com.crossp.jpa.service.AppItemRepository;
-import com.crossp.jpa.service.AppSpaceRepository;
-import com.crossp.jpa.service.UserRepository;
+import com.crossp.jpa.domain.AppTemplate;
+import com.crossp.jpa.service.AppTemplateRepository;
 
 @Controller
-@RequestMapping(value="/setting/app/template")
-public class AppItemRestController {
+@RequestMapping(value="/setting/app/item")
+public class AppTemplateRestController {
 	
 	
 	@Autowired
-	private AppItemRepository appItemRepository;
-	@Autowired
-	private AppSpaceRepository appSpaceRepository;
-	@Autowired
-	private UserRepository userRepository;			
+	private AppTemplateRepository appTemplateRepository;	
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<AppItem> findUserAppItems() {
-		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user = userRepository.findByUsername(principal.getUsername());
-		return appItemRepository.findByUser(user);
+	public @ResponseBody Iterable<AppTemplate> findAppTemplates() {
+		return appTemplateRepository.findAll();
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody AppItem appItem) {
-		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//@SessionAttributes instead of it, store it from login
-		User user = userRepository.findByUsername(principal.getUsername());
-		appItem.setUser(user);
-		appItemRepository.save(appItem);
+	public @ResponseBody void add(@RequestBody AppTemplate appTemplate) {
+		appTemplateRepository.save(appTemplate);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public @ResponseBody void removeAppSpace(@PathVariable("id") Long id) {
-		appItemRepository.delete(id);
+		appTemplateRepository.delete(id);
 	}
 		
 }

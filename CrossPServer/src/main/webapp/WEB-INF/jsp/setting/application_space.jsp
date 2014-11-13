@@ -20,9 +20,10 @@
 				            <th>ID</th>
 				            <th>Name</th>
 				            <th>Position</th>
-				            <th>Display Mode</th>
-				            <th>Display Action</th>
-				            <th>Display Time</th>
+				            <th>ShowType</th>
+				            <th>Transparency</th>
+				            <th>Template</th>
+				            <th>isPublic</th>
 				            <th>Operate</th>
 				          </tr>
 				        </thead>
@@ -31,11 +32,12 @@
 				            <td>{{space.id}}</td>
 				            <td>{{space.name}}</td>
 				            <td>{{space.position}}</td>				            
-				            <td>{{space.displayMode}}</td>
-				            <td>{{space.displayAction}}</td>
-				            <td>{{space.displayTime}}</td>
+				            <td>{{space.showType}}</td>
+				            <td>{{space.transparency}}</td>
+				            <td>{{space.appTemplate.name}}</td>
+				            <td>{{space.public}}</td>
 				            <th>
-				               <button type="button" class="btn btn-default" ng-click="change()">Edit</button>
+				               <button type="button" class="btn btn-default" ng-click="editAppSpace(space)">Edit</button>
 				               <button type="button" class="btn btn-default" ng-click="removeAppSpace(space.id)">Remove</button>
 				            </th>
 				          </tr>
@@ -49,9 +51,10 @@
        		<div ng-show="hiddenShow">       			
        			<div>AppSpace Name:<input type="text" ng-model="appSpace.name" value="" placeholder="AppSpace Name" /></div>
        			<div>Position:<input type="text" ng-model="appSpace.position" value="" placeholder="x, y, width, height" /></div>
-       			<div>Display Mode:<input type="text" ng-model="appSpace.displayMode" value="" placeholder="Web/UI" /></div>
-       			<div>Display Action:<input type="text" ng-model="appSpace.displayAction" value="" placeholder="Event Trigger/Login" /></div>
-       			<div>Display Time:<input type="text" ng-model="appSpace.displayTime" value="" placeholder="How long will be display" /></div>
+       			<div>Show Type:<input type="text" ng-model="appSpace.showType" value="" placeholder="Show Type" /></div>
+       			<div>Transparency:<input type="text" ng-model="appSpace.transparency" value="" placeholder="Transparency" /></div>
+       			<div>Template:<select ng-model="appSpace.appTemplate" ng-options="t.name for t in templates"> <option value="">--Choose--</option></select></div>
+       			<div>isPublic:<input type="checkbox" ng-model="appSpace.public" value=""/></div>
        			<div><button type="button" class="btn btn-default" ng-click="save(appSpace)">Submit</button></div>       			
        		</div>
        	</div>   

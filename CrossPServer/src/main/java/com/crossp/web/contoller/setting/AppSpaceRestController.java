@@ -56,6 +56,11 @@ public class AppSpaceRestController {
 		appSpaceRepository.save(appSpace);
 	}
 	
+	@RequestMapping(value="/update", method=RequestMethod.PUT)
+	public @ResponseBody void edit(@RequestBody AppSpace appSpace) {
+		appSpaceRepository.save(appSpace);
+	}
+	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public @ResponseBody void removeAppSpace(@PathVariable("id") Long id) {
 		appSpaceRepository.delete(id);
