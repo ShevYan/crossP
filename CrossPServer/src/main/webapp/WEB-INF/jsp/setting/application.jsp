@@ -19,6 +19,7 @@
 				          <tr>
 				            <th>ID</th>
 				            <th>Name</th>
+				            <th>AppId</th>
 				            <th>Platform</th>
 				            <th>Type</th>
 				            <th>Description</th>
@@ -32,6 +33,7 @@
 				          <tr ng-repeat="app in apps">
 				            <td>{{app.id}}</td>
 				            <td>{{app.name}}</td>
+				            <td>{{app.appId}}</td>
 				            <td>{{app.platform}}</td>				            
 				            <td>{{app.type}}</td>
 				            <td>{{app.description}}</td>
@@ -51,6 +53,7 @@
        		</div>
        		<div ng-show="hiddenShow">       			
        			<div>Application Name:<input type="text" ng-model="app.name" value="" placeholder="Application Name" /></div>
+       			<div>APP ID:<input type="text" ng-model="app.appId" value="" placeholder="APP ID" /></div>
        			<div>Platform:<input type="text" ng-model="app.platform" value="" placeholder="Platform" /></div>
        			<div>Type:<input type="text" ng-model="app.type" value="" placeholder="Type" /></div>
        			<div>Description:<input type="text" ng-model="app.description" value="" placeholder="Description" /></div>

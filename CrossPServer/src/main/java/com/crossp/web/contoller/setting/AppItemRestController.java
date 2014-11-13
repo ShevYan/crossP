@@ -33,7 +33,7 @@ import com.crossp.jpa.service.AppSpaceRepository;
 import com.crossp.jpa.service.UserRepository;
 
 @Controller
-@RequestMapping(value="/setting/app/template")
+@RequestMapping(value="/setting/app/item")
 public class AppItemRestController {
 	
 	

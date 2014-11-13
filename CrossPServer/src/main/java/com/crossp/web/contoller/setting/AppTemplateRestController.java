@@ -28,7 +28,7 @@ import com.crossp.jpa.domain.AppTemplate;
 import com.crossp.jpa.service.AppTemplateRepository;
 
 @Controller
-@RequestMapping(value="/setting/app/item")
+@RequestMapping(value="/setting/app/template")
 public class AppTemplateRestController {
 	
 	

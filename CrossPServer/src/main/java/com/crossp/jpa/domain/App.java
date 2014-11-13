@@ -18,7 +18,7 @@ public class App{
 	@Id  
 	@GeneratedValue
 	private Long id;
-	
+	private String appId;
 	private String name;
 	private String platform;
 	private String type;
@@ -34,6 +34,12 @@ public class App{
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getAppId() {
+		return appId;
+	}
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
 	public String getName() {
 		return name;
