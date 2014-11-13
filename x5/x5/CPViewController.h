@@ -7,10 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "CPProtocol.h"
 
 @interface CPViewController : UIViewController
 + (instancetype) sharedInstance;
-- (void) cpInit:(NSString *)appID;
+@property (nonatomic, assign) id<CPProtocol> delegate;
+
+- (void) cpInit:(NSString *)appID delegate:(id<CPProtocol>)delegate;
 - (void) cpUninit;
 - (void) cpFetchAsync;
 - (BOOL) cpIsReady;

@@ -9,7 +9,7 @@
 #import "ShevReminderViewController.h"
 #import "CPViewController.h"
 
-@interface ShevReminderViewController ()
+@interface ShevReminderViewController () <CPProtocol>
 @property (nonatomic, weak) IBOutlet UIDatePicker *datePicker;
 @property (nonatomic, weak) IBOutlet UIWebView *webView;
 @end
@@ -34,12 +34,11 @@
     if (self) {
         // Custom initialization
         self.tabBarController.title = @"Reminder";
+        [[CPViewController sharedInstance] cpInit:@"appID" delegate:self];
     }
-    NSData *data;
-    [data writeToFile:@"" atomically:true];
+    
     return self;
 }
-
 
 
 - (void)viewDidLoad
@@ -66,12 +65,20 @@
 }
 */
 
+- (void) cpFailedFetch:(NSString *)errorMsg {
+    
+}
 
-- (IBAction)showCP:(id)sender
+- (void) cpDidFecth {
+    [[CPViewController sharedInstance] cpShow:self];
+}
+
+- (IBAction)fetchCP:(id)sender
 {
-    CPViewController *cpvc = [[CPViewController alloc] init];
-//    [self addChildViewController:cpvc];
-//    [self.view addSubview:cpvc.view];
-    [cpvc cpShow:self];
+//    CPViewController *cpvc = [[CPViewController alloc] init];
+////    [self addChildViewController:cpvc];
+////    [self.view addSubview:cpvc.view];
+//    [cpvc cpShow:self];
+    [[CPViewController sharedInstance] cpFetchAsync];
 }
 @end
