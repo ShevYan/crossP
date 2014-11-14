@@ -1,11 +1,13 @@
 package com.crossp.jpa.domain;
 
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="app_space")
@@ -20,7 +22,7 @@ public class AppSpace{
 	private String transparency;	
 	private boolean isPublic = true;
 		
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
 	@ManyToOne
 	private AppTemplate appTemplate; 
@@ -60,7 +62,7 @@ public class AppSpace{
 	}
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
-	}
+	}	
 	public void setUser(User user) {
 		this.user = user;
 	}
