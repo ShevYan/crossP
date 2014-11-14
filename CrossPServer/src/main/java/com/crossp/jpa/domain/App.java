@@ -7,11 +7,13 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
+@Inheritance
 @Table(name="app")
 public class App{
 
@@ -27,6 +29,9 @@ public class App{
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<App> apps;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<AppSpace> appSpaces;
 	@ManyToOne
 	private User user;
 	public Long getId() {
@@ -70,9 +75,17 @@ public class App{
 	}
 	public void setPublic(boolean isPublic) {
 		this.isPublic = isPublic;
+	}	
+	public User getUser() {
+		return user;
 	}
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	public List<AppSpace> getAppSpaces() {
+		return appSpaces;
+	}
+	public void setAppSpaces(List<AppSpace> appSpaces) {
+		this.appSpaces = appSpaces;
+	}
 }

@@ -18,7 +18,7 @@ var AppSpaceController = function($scope, $http) {
    	}
     
     $scope.fetchAppTemplates = function() {
-     	 $http.get('/setting/app/item/all').success(function(templates){
+     	 $http.get('/setting/app/template/all').success(function(templates){
               $scope.templates = templates;
           });
   	}

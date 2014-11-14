@@ -1,12 +1,9 @@
 package com.crossp.jpa.domain;
 
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -23,8 +20,6 @@ public class AppSpace{
 	private String transparency;	
 	private boolean isPublic = true;
 		
-	@ManyToMany
-	private List<App> apps;
 	@ManyToOne
 	private User user;
 	@ManyToOne
