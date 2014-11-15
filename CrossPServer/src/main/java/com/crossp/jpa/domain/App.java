@@ -27,6 +27,8 @@ public class App{
 	private String type;
 	private String description;
 	private boolean isPublic = true;
+	private String token;
+	private long date = System.currentTimeMillis();
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<App> apps;
@@ -89,4 +91,16 @@ public class App{
 	public void setAppSpaces(List<AppSpace> appSpaces) {
 		this.appSpaces = appSpaces;
 	}
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
+	public long getDate() {
+		return date;
+	}
+	public void setDate(long date) {
+		this.date = date;
+	}	
 }

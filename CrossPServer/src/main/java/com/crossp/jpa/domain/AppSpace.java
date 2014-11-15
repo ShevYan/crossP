@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -30,8 +31,10 @@ public class AppSpace{
 	private User user;
 	@ManyToOne
 	private AppTemplate appTemplate; 
-	@ManyToMany(mappedBy = "",fetch = FetchType.LAZY)
-	private List<AppItem> appItems;
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<AppItemArea> appItemAreas;
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<App> apps;
 	
 	public Long getId() {
 		return id;
@@ -78,10 +81,10 @@ public class AppSpace{
 	public void setAppTemplate(AppTemplate appTemplate) {
 		this.appTemplate = appTemplate;
 	}
-	public List<AppItem> getAppItems() {
-		return appItems;
+	public List<AppItemArea> getAppItemAreas() {
+		return appItemAreas;
 	}
-	public void setAppItems(List<AppItem> appItems) {
-		this.appItems = appItems;
-	}	
+	public void setAppItemAreas(List<AppItemArea> appItemAreas) {
+		this.appItemAreas = appItemAreas;
+	}
 }

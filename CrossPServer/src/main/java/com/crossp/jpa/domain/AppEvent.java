@@ -16,6 +16,8 @@ public class AppEvent{
 	private String name;
 	private int price;
 	private String url;
+	private long date = System.currentTimeMillis();
+	
 	public Long getId() {
 		return id;
 	}
@@ -40,6 +42,11 @@ public class AppEvent{
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	
+	public long getDate() {
+		return date;
+	}
+	public void setDate(long date) {
+		this.date = date;
+	}
 	
 }
