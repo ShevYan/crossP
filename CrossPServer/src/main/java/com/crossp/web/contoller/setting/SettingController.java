@@ -54,4 +54,14 @@ public class SettingController {
 		return "setting/crossp";
 	}
 	
+	@RequestMapping(value="/app/myAppBind")
+	public String appBind() {
+		return "setting/application_bind";
+	}
+	
+	@RequestMapping(value="/app/mySpaceBind")
+	public String appSpaceBind() {
+		return "setting/application_space_bind";
+	}
+	
 }

@@ -26,76 +26,43 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crossp.jdbc.service.AppJDBCService;
-import com.crossp.jpa.domain.App;
+import com.crossp.jpa.domain.AppItem;
 import com.crossp.jpa.domain.User;
-import com.crossp.jpa.service.AppRepository;
+import com.crossp.jpa.service.AppItemRepository;
+import com.crossp.jpa.service.AppSpaceRepository;
 import com.crossp.jpa.service.UserRepository;
 
 @Controller
-@RequestMapping(value="/setting/app")
-public class AppRestController {
+@RequestMapping(value="/setting/app/myAppBind")
+public class AppBindRestController {
+	
 	
 	@Autowired
-	private AppRepository appRepository;
+	private AppItemRepository appItemRepository;
 	@Autowired
-	private AppJDBCService applicationJDBC;
+	private AppSpaceRepository appSpaceRepository;
 	@Autowired
-	private UserRepository userRepository;
+	private UserRepository userRepository;			
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<App> findAll() {
-		return appRepository.findAll();
-	}
-	
-	@RequestMapping(value="/{id}")
-	public @ResponseBody Iterable<App> findALLAppsById(@PathVariable("id") Long id) {
-		return appRepository.findByUserId(id);
-	}
-	
-	@RequestMapping(value="/user")
-	public @ResponseBody Iterable<App> findUserALLApps() {
+	public @ResponseBody Iterable<AppItem> findUserAppItems() {
 		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByUsername(principal.getUsername());
-		return appRepository.findByUser(user);
+		return appItemRepository.findByUser(user);
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody App app) {
+	public @ResponseBody void add(@RequestBody AppItem appItem) {
 		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		//@SessionAttributes instead of it, store it from login
 		User user = userRepository.findByUsername(principal.getUsername());
-		app.setUser(user);
-		appRepository.save(app);
-	}
-	
-	@RequestMapping(value="/update", method=RequestMethod.PUT)
-	public @ResponseBody void update(@RequestBody App app) {
-		appRepository.save(app);
-	}
-	
-	@RequestMapping(value="/cp/{id}")
-	public @ResponseBody Iterable<App> findALLCPApps(@PathVariable("id") int id) {
-		return appRepository.findByApplicationId(id);
-	}
-	
-	@RequestMapping(value="/cp/unjoin/{id}")
-	public @ResponseBody Iterable<App> findUnJoinCPApps(@PathVariable("id") int id) {
-		return appRepository.findUnJoinByApplicationId(id);
-	}
-	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.POST)
-	public @ResponseBody void joinCP(@PathVariable("wid") int wid, @PathVariable("rid") int rid) {
-		applicationJDBC.joinCP(wid, rid);
+		appItem.setUser(user);
+		appItemRepository.save(appItem);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public @ResponseBody void removeApp(@PathVariable("id") Long id) {
-		appRepository.delete(id);
-	}
-	
-	@RequestMapping(value="/cp/{wid}/{rid}", method=RequestMethod.DELETE)
-	public @ResponseBody void breakCP(@PathVariable("wid") int wid, @PathVariable("rid") int rid) {
-		applicationJDBC.breakCP(wid, rid);
+	public @ResponseBody void removeAppSpace(@PathVariable("id") Long id) {
+		appItemRepository.delete(id);
 	}
 		
 }

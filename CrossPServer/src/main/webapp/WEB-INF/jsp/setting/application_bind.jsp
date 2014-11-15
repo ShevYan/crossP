@@ -4,7 +4,7 @@
 <head>
 <title>Setting Home Page</title>
 </head>
-<body ng-app="SettingModule" ng-controller="AppController">
+<body ng-app="SettingModule" ng-controller="AppBindController">
   <div class="container">
   	<%@include file="../header.jsp"%>
     <div class="content">
@@ -17,32 +17,24 @@
 				        ng-show="apps.length > 0">
 				        <thead>
 				          <tr>
-				            <th>ID</th>
-				            <th>Name</th>
-				            <th>AppId</th>
-				            <th>Platform</th>
-				            <th>Type</th>
-				            <th>Description</th>
-				            <th>isPublic</th>
-				            <th>CpSpace</th>
-				            <th>CpItem</th>
-				            <th>Operate</th>
+				            <th>App Name</th>
+				            <th>Space Name</th>
+                    <th>Position</th>
+                    <th>ShowType</th>
+                    <th>Transparency</th>
+                    <th>Template</th>
+                    <th>isPublic</th>
 				          </tr>
 				        </thead>
-				        <tbody>
-				          <tr ng-repeat="app in apps">
-				            <td>{{app.id}}</td>
-				            <td>{{app.name}}</td>
-				            <td>{{app.appId}}</td>
-				            <td>{{app.platform}}</td>				            
-				            <td>{{app.type}}</td>
-				            <td>{{app.description}}</td>
-				            <td>{{app.public}}</td>				            
-				            <td>3</td>
-				            <td>10</td>
-				            <th>
-				               <button type="button" class="btn btn-default" ng-click="removeApp(app.id)">Remove</button>
-				            </th>
+				        <tbody ng-repeat="app in apps | filter: app.appSpaces.length > 1">
+				          <tr  ng-repeat="space in app.appSpaces">				              
+					            <td rowspan="{{app.appSpaces.length}}" ng-show="$index = $first">{{app.name}}</td>				            
+					            <td>{{space.name}}</td>
+	                    <td>{{space.position}}</td>                   
+	                    <td>{{space.showType}}</td>
+	                    <td>{{space.transparency}}</td>
+	                    <td>{{space.appTemplate.name}}</td>
+	                    <td>{{space.public}}</td>
 				          </tr>
 				        </tbody>
 				   </table>
@@ -66,6 +58,6 @@
 </body>
 
 <script src="../../../js/lib/angular/angular.js"></script>
-<script src="../../../js/controllers/AppController.js"></script>
+<script src="../../../js/controllers/AppBindController.js"></script>
 <script src="../../../js/app.js"></script>
 </html>

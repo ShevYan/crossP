@@ -7,39 +7,44 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
+@Inheritance
 @Table(name="app")
 public class App{
 
-	@Id
+	@Id  
 	@GeneratedValue
 	private Long id;
-	
+	private String appId;
 	private String name;
-	private String location;
-	private String function;
-	private String os;
-	private String osVersion;
-	private int policy;
-	private String content;
+	private String platform;
+	private String type;
+	private String description;
+	private boolean isPublic = true;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<App> apps;
+	
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<AppSpace> appSpaces;
 	@ManyToOne
 	private User user;
-	
 	public Long getId() {
 		return id;
 	}
-	public void setUser(User user) {
-		this.user = user;
-	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public String getAppId() {
+		return appId;
+	}
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
 	public String getName() {
 		return name;
@@ -47,41 +52,40 @@ public class App{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getLocation() {
-		return location;
+	public String getPlatform() {
+		return platform;
 	}
-	public void setLocation(String location) {
-		this.location = location;
+	public void setPlatform(String platform) {
+		this.platform = platform;
 	}
-	public String getFunction() {
-		return function;
+	public String getType() {
+		return type;
 	}
-	public void setFunction(String function) {
-		this.function = function;
+	public void setType(String type) {
+		this.type = type;
 	}
-	public String getOs() {
-		return os;
+	public String getDescription() {
+		return description;
 	}
-	public void setOs(String os) {
-		this.os = os;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	public String getOsVersion() {
-		return osVersion;
+	public boolean isPublic() {
+		return isPublic;
 	}
-	public void setOsVersion(String osVersion) {
-		this.osVersion = osVersion;
-	}
-	public int getPolicy() {
-		return policy;
-	}
-	public void setPolicy(int policy) {
-		this.policy = policy;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
 	}	
-	
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+	public List<AppSpace> getAppSpaces() {
+		return appSpaces;
+	}
+	public void setAppSpaces(List<AppSpace> appSpaces) {
+		this.appSpaces = appSpaces;
+	}
 }

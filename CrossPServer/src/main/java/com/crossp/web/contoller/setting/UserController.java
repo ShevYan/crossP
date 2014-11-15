@@ -14,16 +14,32 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller;
+package com.crossp.web.contoller.setting;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.crossp.jpa.domain.User;
+import com.crossp.jpa.service.UserRepository;
 
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
 
+	@Autowired
+	private UserRepository userRepository;
 	
+	@RequestMapping(value="/my")
+	public @ResponseBody User findByName() {
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findByUsername(principal.getUsername());
+		return user;
+	}
+		
 	@RequestMapping(value="/index")
 	public String index() {
 		return "index";

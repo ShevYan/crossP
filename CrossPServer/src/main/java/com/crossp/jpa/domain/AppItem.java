@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -21,11 +22,13 @@ public class AppItem{
 	private String appId;
 	private String icon;
 	private String type;
-	private String desc;
+	private String description;
 	@ManyToOne
 	private User user;
 	@ManyToMany
 	private List<AppSpace> appSpaces;
+	@OneToMany
+	List<AppEvent> events;
 	public Long getId() {
 		return id;
 	}
@@ -56,11 +59,24 @@ public class AppItem{
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getDesc() {
-		return desc;
+	
+	public String getDescription() {
+		return description;
 	}
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public List<AppSpace> getAppSpaces() {
+		return appSpaces;
+	}
+	public void setAppSpaces(List<AppSpace> appSpaces) {
+		this.appSpaces = appSpaces;
+	}
+	public List<AppEvent> getEvents() {
+		return events;
+	}
+	public void setEvents(List<AppEvent> events) {
+		this.events = events;
 	}
 	public void setUser(User user) {
 		this.user = user;

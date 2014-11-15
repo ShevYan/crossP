@@ -1,14 +1,13 @@
 package com.crossp.jpa.domain;
 
 
-import java.util.List;
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 
 @Entity
 @Table(name="app_space")
@@ -19,16 +18,14 @@ public class AppSpace{
 	private Long id;
 	private String name;
 	private String position;
-	private int price;
-	private String displayMode;
-	private String displayAction;	
-	private int displayCount;
-	private int displayTime;
-	
-	@ManyToMany
-	private List<App> apps;
-	@ManyToOne
+	private String showType;
+	private String transparency;	
+	private boolean isPublic = true;
+		
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
+	@ManyToOne
+	private AppTemplate appTemplate; 
 	
 	public Long getId() {
 		return id;
@@ -48,39 +45,32 @@ public class AppSpace{
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	
-	public int getPrice() {
-		return price;
+	public String getShowType() {
+		return showType;
 	}
-	public void setPrice(int price) {
-		this.price = price;
+	public void setShowType(String showType) {
+		this.showType = showType;
 	}
-	
-	public int getDisplayTime() {
-		return displayTime;
+	public String getTransparency() {
+		return transparency;
 	}
-	public void setDisplayTime(int displayTime) {
-		this.displayTime = displayTime;
+	public void setTransparency(String transparency) {
+		this.transparency = transparency;
 	}
-	public String getDisplayMode() {
-		return displayMode;
+	public boolean isPublic() {
+		return isPublic;
 	}
-	public void setDisplayMode(String displayMode) {
-		this.displayMode = displayMode;
-	}
-	public String getDisplayAction() {
-		return displayAction;
-	}
-	public void setDisplayAction(String displayAction) {
-		this.displayAction = displayAction;
-	}
-	public int getDisplayCount() {
-		return displayCount;
-	}
-	public void setDisplayCount(int displayCount) {
-		this.displayCount = displayCount;
-	}
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}	
 	public void setUser(User user) {
 		this.user = user;
-	} 
+	}
+	public AppTemplate getAppTemplate() {
+		return appTemplate;
+	}
+	public void setAppTemplate(AppTemplate appTemplate) {
+		this.appTemplate = appTemplate;
+	}	
+	
 }
