@@ -8,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -25,6 +24,7 @@ public class AppItem{
 	private String icon;
 	private String type;
 	private String description;
+	private long date = System.currentTimeMillis();
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
 	@OneToMany(fetch = FetchType.LAZY)
@@ -75,5 +75,10 @@ public class AppItem{
 	public void setUser(User user) {
 		this.user = user;
 	}
-	
+	public long getDate() {
+		return date;
+	}
+	public void setDate(long date) {
+		this.date = date;
+	}
 }
