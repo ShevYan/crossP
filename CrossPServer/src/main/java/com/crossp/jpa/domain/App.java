@@ -3,6 +3,7 @@ package com.crossp.jpa.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,7 +33,7 @@ public class App{
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<AppSpace> appSpaces;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
 	public Long getId() {
 		return id;

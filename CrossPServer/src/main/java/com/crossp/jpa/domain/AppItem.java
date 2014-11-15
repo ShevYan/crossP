@@ -3,7 +3,9 @@ package com.crossp.jpa.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -23,11 +25,9 @@ public class AppItem{
 	private String icon;
 	private String type;
 	private String description;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
-	@ManyToMany
-	private List<AppSpace> appSpaces;
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
 	List<AppEvent> events;
 	public Long getId() {
 		return id;
@@ -65,12 +65,6 @@ public class AppItem{
 	}
 	public void setDescription(String description) {
 		this.description = description;
-	}
-	public List<AppSpace> getAppSpaces() {
-		return appSpaces;
-	}
-	public void setAppSpaces(List<AppSpace> appSpaces) {
-		this.appSpaces = appSpaces;
 	}
 	public List<AppEvent> getEvents() {
 		return events;
