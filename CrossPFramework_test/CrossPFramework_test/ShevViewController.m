@@ -34,7 +34,7 @@
 }
 
 - (void) cpFailedFetch:(NSString *)errorMsg {
-    
+    NSLog(@"fetch error: %@", errorMsg);
 }
 
 - (void) cpDidFecth {

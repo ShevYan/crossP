@@ -18,6 +18,7 @@ enum ShowType {
 };
 
 @interface CPViewController ()
+@property dispatch_queue_t fetchSpaceQueue;
 @property (nonatomic, strong) UIWebView *webView;
 @property (nonatomic, copy) NSString *appID;
 @property NSURL *webUrl;
@@ -45,6 +46,7 @@ enum ShowType {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        self.fetchSpaceQueue = dispatch_queue_create("com.eyeshang.cpframework.fetch_space", DISPATCH_QUEUE_CONCURRENT);
     }
     return self;
 }
@@ -84,49 +86,64 @@ enum ShowType {
 }
 
 - (void) cpFetchAsync {
-    self.webUrl = nil;
+ 
     // need to change request uri
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        // get json
-        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:REQ_URI] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:0.5];
-        NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
-        NSError *jsonParsingError = nil;
-        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonParsingError];
-        if (nil != jsonParsingError) {
-            [self.delegate cpFailedFetch:@"Failed to parse json."];
-            return ;
+    dispatch_async(self.fetchSpaceQueue, ^{
+        
+        @try {
+            self.webUrl = nil;
+            // get json
+            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:REQ_URI] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:0.5];
+            NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
+            NSError *jsonParsingError = nil;
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonParsingError];
+            if (nil != jsonParsingError) {
+                @throw [NSException exceptionWithName:@"JsonParseError" reason:@"Failed to parse json" userInfo:nil];
+                
+            }
+            
+            // get download link
+            NSDictionary *fetchResp = [json objectForKey:@"fetchResp"];
+            NSString *downloadLink = [fetchResp objectForKey:@"DownloadLink"];
+            
+            // download zip
+            NSString *tempPath = NSTemporaryDirectory();
+            NSData *zipData = [NSData dataWithContentsOfURL:[NSURL URLWithString:downloadLink]];
+            NSString *zipFile = [tempPath stringByAppendingPathComponent: @"CpSpace.zip"];
+            [zipData writeToFile:zipFile atomically:TRUE];
+            
+            // decompress zip
+            ZipArchive *za = [[ZipArchive alloc] init];
+            [za UnzipOpenFile:zipFile];
+            NSString *zipPath = [tempPath stringByAppendingPathComponent: @"CpSpace"];
+            [za UnzipFileTo:tempPath overWrite:TRUE];
+            [za UnzipCloseFile];
+            za = nil;
+            
+            // show
+            NSURL *url = [NSURL fileURLWithPath:[zipPath stringByAppendingPathComponent:@"cpSpace.html"]];
+            
+            if (url != nil) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    @try {
+                        if (nil != self.delegate) {
+                            self.webUrl = url;
+                            [self parseShowOptions:[fetchResp objectForKey:@"CpSpace"]];
+                            [self.delegate cpDidFecth];
+                        }
+                    }
+                    @finally {
+                    }
+                });
+            }
+        }
+        @catch (NSException *exception) {
+            [self.delegate cpFailedFetch:exception.reason];
+            NSLog(@"Exception: %@", [exception callStackSymbols]);
+        }
+        @finally {
         }
         
-        // get download link
-        NSDictionary *fetchResp = [json objectForKey:@"fetchResp"];
-        NSString *downloadLink = [fetchResp objectForKey:@"DownloadLink"];
-        
-        // download zip
-        NSString *tempPath = NSTemporaryDirectory();
-        NSData *zipData = [NSData dataWithContentsOfURL:[NSURL URLWithString:downloadLink]];
-        NSString *zipFile = [tempPath stringByAppendingPathComponent: @"CpSpace.zip"];
-        [zipData writeToFile:zipFile atomically:TRUE];
-
-        // decompress zip
-        ZipArchive *za = [[ZipArchive alloc] init];
-        [za UnzipOpenFile:zipFile];
-        NSString *zipPath = [tempPath stringByAppendingPathComponent: @"CpSpace"];
-        [za UnzipFileTo:tempPath overWrite:TRUE];
-        [za UnzipCloseFile];
-        za = nil;
-        
-        // show
-        NSURL *url = [NSURL fileURLWithPath:[zipPath stringByAppendingPathComponent:@"cpSpace.html"]];
-        
-        if (url != nil) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (nil != self.delegate) {
-                    self.webUrl = url;
-                    [self parseShowOptions:[fetchResp objectForKey:@"CpSpace"]];
-                    [self.delegate cpDidFecth];
-                }
-            });
-        }
     });
 }
 
