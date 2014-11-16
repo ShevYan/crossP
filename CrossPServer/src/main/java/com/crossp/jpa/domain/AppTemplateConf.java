@@ -1,22 +1,20 @@
 package com.crossp.jpa.domain;
 
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="app_event")
-public class AppEvent{
+@Table(name="app_template_conf")
+public class AppTemplateConf{
 
 	@Id
 	@GeneratedValue
 	private Long id;
 	private String name;
-	private int price;
-	private String url;
-	private long date = System.currentTimeMillis();
+	private int size;
+	private String zipPath;
 	
 	public Long getId() {
 		return id;
@@ -30,23 +28,18 @@ public class AppEvent{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPrice() {
-		return price;
+	public int getSize() {
+		return size;
 	}
-	public void setPrice(int price) {
-		this.price = price;
+	public void setSize(int size) {
+		this.size = size;
 	}
-	public String getUrl() {
-		return url;
+	public String getZipPath() {
+		return zipPath;
 	}
-	public void setUrl(String url) {
-		this.url = url;
+	public void setZipPath(String zipPath) {
+		this.zipPath = zipPath;
 	}
-	public long getDate() {
-		return date;
-	}
-	public void setDate(long date) {
-		this.date = date;
-	}
+	
 	
 }

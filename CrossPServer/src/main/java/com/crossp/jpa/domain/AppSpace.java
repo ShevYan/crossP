@@ -1,15 +1,11 @@
 package com.crossp.jpa.domain;
 
-
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -28,10 +24,8 @@ public class AppSpace{
 		
 	@ManyToOne(cascade = CascadeType.MERGE)
 	private User user;
-	@ManyToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private AppTemplate appTemplate; 
-	@ManyToMany(mappedBy = "",fetch = FetchType.LAZY)
-	private List<AppItem> appItems;
 	
 	public Long getId() {
 		return id;
@@ -44,6 +38,9 @@ public class AppSpace{
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	public User getUser() {
+		return user;
 	}
 	public String getPosition() {
 		return position;
@@ -78,10 +75,4 @@ public class AppSpace{
 	public void setAppTemplate(AppTemplate appTemplate) {
 		this.appTemplate = appTemplate;
 	}
-	public List<AppItem> getAppItems() {
-		return appItems;
-	}
-	public void setAppItems(List<AppItem> appItems) {
-		this.appItems = appItems;
-	}	
 }

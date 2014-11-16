@@ -18,38 +18,34 @@ package com.crossp.web.contoller.setting;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crossp.jpa.domain.AppTemplate;
-import com.crossp.jpa.domain.AppTemplateConf;
-import com.crossp.jpa.service.AppTemplateConfRepository;
-import com.crossp.jpa.service.AppTemplateRepository;
+import com.crossp.jpa.domain.AppItemArea;
+import com.crossp.jpa.service.AppItemAreaRepository;
+import com.crossp.jpa.service.AppSpaceRepository;
+import com.crossp.jpa.service.UserRepository;
 
 @Controller
-@RequestMapping(value="/setting/app/template")
-public class AppTemplateRestController {
-	
+@RequestMapping(value="/setting/app/area")
+public class AppItemAreaRestController {
 	
 	@Autowired
-	private AppTemplateConfRepository appTemplateRepository;	
+	private AppItemAreaRepository appItemAreaRepository;
+	@Autowired
+	private AppSpaceRepository appSpaceRepository;
+	@Autowired
+	private UserRepository userRepository;			
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<AppTemplateConf> findAppTemplates() {
-		return appTemplateRepository.findAll();
+	public @ResponseBody Iterable<AppItemArea> findUserAppItems() {
+		return appItemAreaRepository.findAll();
 	}
 	
-	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody AppTemplateConf appTemplate) {
-		appTemplateRepository.save(appTemplate);
+	@RequestMapping(value="/save", method=RequestMethod.POST)
+	public @ResponseBody void add(@RequestBody AppItemArea appItemArea) {
+		appItemAreaRepository.save(appItemArea);
 	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public @ResponseBody void removeAppSpace(@PathVariable("id") Long id) {
-		appTemplateRepository.delete(id);
-	}
-		
 }
