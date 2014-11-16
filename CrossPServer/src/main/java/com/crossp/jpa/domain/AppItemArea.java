@@ -4,7 +4,7 @@ package com.crossp.jpa.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,8 +18,9 @@ public class AppItemArea{
 	private int status;
 	private boolean isPublic = true;
 	private long date = System.currentTimeMillis();
-	@ManyToOne
+	@OneToOne
 	private AppItem appItem;
+	
 	public Long getId() {
 		return id;
 	}
@@ -55,5 +56,5 @@ public class AppItemArea{
 	}
 	public void setDate(long date) {
 		this.date = date;
-	}
+	}	
 }

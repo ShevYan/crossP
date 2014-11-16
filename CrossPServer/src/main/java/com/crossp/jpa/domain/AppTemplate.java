@@ -3,9 +3,11 @@ package com.crossp.jpa.domain;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,7 +20,9 @@ public class AppTemplate{
 	private Long id;
 	private String name;
 	private int size;
-	@OneToMany
+	private String zipPath;
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name="appTemplate_id")
 	private List<AppItemArea> itemAreas;
 	
 	public Long getId() {
@@ -45,5 +49,12 @@ public class AppTemplate{
 	public void setItemAreas(List<AppItemArea> itemAreas) {
 		this.itemAreas = itemAreas;
 	}
+	public String getZipPath() {
+		return zipPath;
+	}
+	public void setZipPath(String zipPath) {
+		this.zipPath = zipPath;
+	}
+	
 	
 }

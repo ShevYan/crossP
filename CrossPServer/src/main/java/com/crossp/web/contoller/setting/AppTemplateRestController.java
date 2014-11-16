@@ -42,6 +42,7 @@ public class AppTemplateRestController {
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
 	public @ResponseBody void add(@RequestBody AppTemplate appTemplate) {
+		System.out.println("levyxia:"+appTemplate.getItemAreas().size());
 		appTemplateRepository.save(appTemplate);
 	}
 	
