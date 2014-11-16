@@ -41,6 +41,9 @@ public class AppItem{
 	public void setName(String name) {
 		this.name = name;
 	}
+	public User getUser() {
+		return user;
+	}
 	public String getAppId() {
 		return appId;
 	}

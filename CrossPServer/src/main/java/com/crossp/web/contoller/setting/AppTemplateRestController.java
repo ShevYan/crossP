@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crossp.jpa.domain.AppTemplate;
+import com.crossp.jpa.domain.AppTemplateConf;
+import com.crossp.jpa.service.AppTemplateConfRepository;
 import com.crossp.jpa.service.AppTemplateRepository;
 
 @Controller
@@ -33,16 +35,15 @@ public class AppTemplateRestController {
 	
 	
 	@Autowired
-	private AppTemplateRepository appTemplateRepository;	
+	private AppTemplateConfRepository appTemplateRepository;	
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<AppTemplate> findAppTemplates() {
+	public @ResponseBody Iterable<AppTemplateConf> findAppTemplates() {
 		return appTemplateRepository.findAll();
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody AppTemplate appTemplate) {
-		System.out.println("levyxia:"+appTemplate.getItemAreas().size());
+	public @ResponseBody void add(@RequestBody AppTemplateConf appTemplate) {
 		appTemplateRepository.save(appTemplate);
 	}
 	

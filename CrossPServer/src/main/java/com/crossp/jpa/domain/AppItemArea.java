@@ -21,6 +21,13 @@ public class AppItemArea{
 	@OneToOne
 	private AppItem appItem;
 	
+	public AppItemArea() {
+	}
+	
+	public AppItemArea(int sequence) {
+		this.sequence = sequence;
+	}
+	
 	public Long getId() {
 		return id;
 	}

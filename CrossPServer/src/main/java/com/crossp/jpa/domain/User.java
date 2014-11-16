@@ -6,6 +6,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class User{
@@ -14,7 +16,9 @@ public class User{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 	private String username;
+	@JsonIgnore
 	private String password;
+	@JsonIgnore
 	private boolean enabled;
 		
 	public long getId() {

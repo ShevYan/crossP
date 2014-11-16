@@ -16,6 +16,9 @@
 
 package com.crossp.web.contoller.setting;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,43 +29,64 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.crossp.jpa.domain.AppItemArea;
 import com.crossp.jpa.domain.AppSpace;
+import com.crossp.jpa.domain.AppTemplateConf;
 import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.AppSpaceRepository;
 import com.crossp.jpa.service.UserRepository;
 
 @Controller
-@RequestMapping(value="/setting/app/space")
+@RequestMapping(value = "/setting/app/space")
 public class AppSpaceRestController {
-	
+
 	@Autowired
 	private AppSpaceRepository appSpaceRepository;
 	@Autowired
 	private UserRepository userRepository;
-					
-	@RequestMapping(value="/all")
+
+	@RequestMapping(value = "/all")
 	public @ResponseBody Iterable<AppSpace> findUserAppSpaces() {
-		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserDetails principal = (UserDetails) SecurityContextHolder
+				.getContext().getAuthentication().getPrincipal();
 		User user = userRepository.findByUsername(principal.getUsername());
 		return appSpaceRepository.findByUser(user);
 	}
-	
-	@RequestMapping(value="/add", method=RequestMethod.POST)
+
+	@RequestMapping(value = "/add", method = RequestMethod.POST)
 	public @ResponseBody void add(@RequestBody AppSpace appSpace) {
-		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//@SessionAttributes instead of it, store it from login
-		User user = userRepository.findByUsername(principal.getUsername());
-		appSpace.setUser(user);
+		Long id = appSpace.getUser() == null ? 0 : appSpace.getUser().getId();
+		if (id == 0) {
+			UserDetails principal = (UserDetails) SecurityContextHolder
+					.getContext().getAuthentication().getPrincipal();
+			User user = userRepository.findByUsername(principal.getUsername());
+			appSpace.setUser(user);
+		}
+		createAppItemArea(appSpace);
 		appSpaceRepository.save(appSpace);
 	}
-	
-	@RequestMapping(value="/update", method=RequestMethod.PUT)
+
+	@RequestMapping(value = "/update", method = RequestMethod.PUT)
 	public @ResponseBody void edit(@RequestBody AppSpace appSpace) {
 		appSpaceRepository.save(appSpace);
 	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+
+	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	public @ResponseBody void removeAppSpace(@PathVariable("id") Long id) {
 		appSpaceRepository.delete(id);
+	}
+
+	private void createAppItemArea(AppSpace appSpace) {
+		AppTemplateConf templateConf = appSpace.getAppTemplate() == null ? null
+				: appSpace.getAppTemplate().getAppTconf();
+		if (templateConf == null){
+			return;
+		}
+		List<AppItemArea> areas = new ArrayList<AppItemArea>();
+		int size = templateConf.getSize();
+		for (int i = 0; i < size; i++) {
+			areas.add(new AppItemArea(i));
+		}
+		appSpace.getAppTemplate().setItemAreas(areas);
 	}
 }
