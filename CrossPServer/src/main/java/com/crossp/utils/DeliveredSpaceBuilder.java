@@ -14,16 +14,17 @@ import com.crossp.jpa.domain.AppItem;
 import com.crossp.jpa.domain.AppItemArea;
 import com.crossp.jpa.domain.AppSpace;
 import com.crossp.jpa.domain.AppTemplate;
+import com.crossp.jpa.domain.AppTemplateConf;
 import com.crossp.jpa.domain.DeliveredSpace;
 
-public class TemplateBuilder {
+public class DeliveredSpaceBuilder {
 	public DeliveredSpace build(AppSpace cpSpace) {
 		DeliveredSpace ds = null;
 		
 		try {
 			// copy data to a new dir
-			File src = new File(cpSpace.getAppTemplate().getZipPath());
-			File des = new File(cpSpace.getAppTemplate().getZipPath() + "." + cpSpace.getId());
+			File src = new File(cpSpace.getAppTemplate().getAppTconf().getZipPath());
+			File des = new File(cpSpace.getAppTemplate().getAppTconf().getZipPath() + "." + cpSpace.getId());
 			if (!des.exists()) {
 				copyFolder(src, des);
 			}
@@ -172,9 +173,11 @@ public class TemplateBuilder {
 		cpSpace.setPublic(true);
 
 		AppTemplate appTemplate = new AppTemplate();
-		appTemplate.setName("mock template");
-		appTemplate.setSize(1);
-		appTemplate.setZipPath("f:/tmp/CpSpace");
+		AppTemplateConf appTmpConf = new AppTemplateConf();
+		appTmpConf.setName("mock template");
+		appTmpConf.setSize(1);
+		appTmpConf.setZipPath("f:/tmp/CpSpace");
+		appTemplate.setAppTconf(appTmpConf);
 		
 		AppItemArea area = new AppItemArea();
 		area.setSequence(0);
@@ -184,10 +187,9 @@ public class TemplateBuilder {
 		ArrayList<AppItemArea> areaItemList = new ArrayList<AppItemArea>();
 		areaItemList.add(area);
 		appTemplate.setItemAreas(areaItemList);
-		cpSpace.setAppItemAreas(areaItemList);
 		
 		cpSpace.setAppTemplate(appTemplate);
-		TemplateBuilder builder = new TemplateBuilder();
+		DeliveredSpaceBuilder builder = new DeliveredSpaceBuilder();
 		DeliveredSpace ds = builder.build(cpSpace);
 		System.out.println("link: " + ds.getDownloadLink());
 	}
