@@ -1,4 +1,4 @@
-package com.crossp.jpa.domain;
+package com.crossp.beans;
 
 // response of mobile's fetching request
 public class DeliveredSpace {

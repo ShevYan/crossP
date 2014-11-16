@@ -10,12 +10,12 @@ import java.util.ArrayList;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import com.crossp.beans.DeliveredSpace;
 import com.crossp.jpa.domain.AppItem;
 import com.crossp.jpa.domain.AppItemArea;
 import com.crossp.jpa.domain.AppSpace;
 import com.crossp.jpa.domain.AppTemplate;
 import com.crossp.jpa.domain.AppTemplateConf;
-import com.crossp.jpa.domain.DeliveredSpace;
 
 public class DeliveredSpaceBuilder {
 	public DeliveredSpace build(AppSpace cpSpace) {
