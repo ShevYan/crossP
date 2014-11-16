@@ -82,11 +82,20 @@ public class AppSpaceRestController {
 		if (templateConf == null){
 			return;
 		}
-		List<AppItemArea> areas = new ArrayList<AppItemArea>();
-		int size = templateConf.getSize();
-		for (int i = 0; i < size; i++) {
-			areas.add(new AppItemArea(i));
+		List<AppItemArea> saveAreas = new ArrayList<AppItemArea>();
+		List<AppItemArea> postAreas = appSpace.getAppTemplate().getItemAreas();
+		int templateSize = templateConf.getSize();
+		int postSize = postAreas == null ? 0 : postAreas.size();
+				
+		for (int i = 0; i < templateSize; i++) {
+			AppItemArea area = null;
+			if (postSize > i){
+				area = postAreas.get(i);
+			}else {
+				area = new AppItemArea(i);
+			}
+			saveAreas.add(area);
 		}
-		appSpace.getAppTemplate().setItemAreas(areas);
+		appSpace.getAppTemplate().setItemAreas(saveAreas);
 	}
 }
