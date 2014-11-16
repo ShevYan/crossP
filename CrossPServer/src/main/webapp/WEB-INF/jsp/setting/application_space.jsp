@@ -53,7 +53,7 @@
        			<div>Position:<input type="text" ng-model="appSpace.position" value="" placeholder="x, y, width, height" /></div>
        			<div>Show Type:<input type="text" ng-model="appSpace.showType" value="" placeholder="Show Type" /></div>
        			<div>Transparency:<input type="text" ng-model="appSpace.transparency" value="" placeholder="Transparency" /></div>
-       			<div>Template:<select ng-model="appSpace.appTemplate" ng-options="t.name for t in templates"> <option value="">--Choose--</option></select></div>
+       			<div>Template:<select ng-model="appSpace.appTemplate.appTconf" ng-options="t.name for t in templates"> <option value="">--Choose--</option></select></div>
        			<div>isPublic:<input type="checkbox" ng-model="appSpace.public" value=""/></div>
        			<div><button type="button" class="btn btn-default" ng-click="save(appSpace)">Submit</button></div>       			
        		</div>

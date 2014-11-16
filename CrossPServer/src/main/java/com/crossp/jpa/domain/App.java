@@ -30,10 +30,7 @@ public class App{
 	private boolean isPublic = true;
 	private UUID token =  java.util.UUID.randomUUID();
 	private long date = System.currentTimeMillis();
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	private List<App> apps;
-	
+		
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<AppSpace> appSpaces;
 	@ManyToOne(cascade = CascadeType.MERGE)

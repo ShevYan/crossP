@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -18,42 +19,36 @@ public class AppTemplate{
 	@Id
 	@GeneratedValue
 	private Long id;
-	private String name;
-	private int size;
-	private String zipPath;
+	
+	@ManyToOne
+	private AppTemplateConf appTconf;	
+	
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="appTemplate_id")
 	private List<AppItemArea> itemAreas;
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public String getName() {
-		return name;
+
+	public AppTemplateConf getAppTconf() {
+		return appTconf;
 	}
-	public void setName(String name) {
-		this.name = name;
+
+	public void setAppTconf(AppTemplateConf appTconf) {
+		this.appTconf = appTconf;
 	}
-	public int getSize() {
-		return size;
-	}
-	public void setSize(int size) {
-		this.size = size;
-	}
+
 	public List<AppItemArea> getItemAreas() {
 		return itemAreas;
 	}
+
 	public void setItemAreas(List<AppItemArea> itemAreas) {
 		this.itemAreas = itemAreas;
-	}
-	public String getZipPath() {
-		return zipPath;
-	}
-	public void setZipPath(String zipPath) {
-		this.zipPath = zipPath;
 	}
 	
 	
