@@ -26,8 +26,7 @@ public class CrossPSuccessHandler extends SavedRequestAwareAuthenticationSuccess
 			Authentication authentication) throws IOException, ServletException {
 		HttpSession session = request.getSession(false);
 		User user = userRepository.findByUsername(authentication.getName());
-		session.setAttribute("test", user);
-		System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		session.setAttribute("user", user);
 		super.onAuthenticationSuccess(request, response, authentication);
 	
 	}

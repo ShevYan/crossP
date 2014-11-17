@@ -14,15 +14,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Inheritance
 @Table(name="app")
 @JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
-public class App{
+public class App {
 
 	@Id  
 	@GeneratedValue
@@ -38,9 +38,10 @@ public class App{
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<AppSpace> appSpaces;
 	
-	@JsonBackReference 
-	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, optional = false)
 	private User user;
+	
 	public Long getId() {
 		return id;
 	}

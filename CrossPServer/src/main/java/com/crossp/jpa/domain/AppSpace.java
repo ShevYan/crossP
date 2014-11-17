@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="app_space")
@@ -22,8 +24,10 @@ public class AppSpace{
 	private String transparency;	
 	private boolean isPublic = true;
 		
+	@JsonIgnore
 	@ManyToOne(optional = false)
 	private User user;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	private AppTemplate appTemplate; 
 	
