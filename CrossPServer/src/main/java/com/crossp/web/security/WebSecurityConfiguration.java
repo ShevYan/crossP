@@ -57,6 +57,8 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 
 		@Autowired
 		private SecurityProperties security;
+		@Autowired
+		private CrossPSuccessHandler crossPSuccessHandler;
 		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
@@ -67,8 +69,9 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 					.antMatchers("/admin/**").hasRole("ADMIN")
 					.and()
 						.formLogin()
-							.loginPage("/login")
+							.loginPage("/login")								
 								.defaultSuccessUrl("/")
+								.successHandler(crossPSuccessHandler)
 								.failureUrl("/login?error").permitAll()
 					.and()
 						.logout()
