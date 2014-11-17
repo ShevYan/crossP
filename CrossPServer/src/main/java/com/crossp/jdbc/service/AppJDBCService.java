@@ -13,8 +13,6 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 public class AppJDBCService {
 
@@ -23,6 +21,8 @@ public class AppJDBCService {
 	private final String JOIN_CP = "insert into application_application(application_id, applications_id) values(?,?)";
 	private final String BREAK_CP = "delete from application_application where application_id =? and applications_id =?";
 	private final String SELECT_USER_APPS = "select * from application where user_id = ?";
+	private final String MSG_READ_ONE = "update app_message set status = 1 where cid = ? and id = ?";
+	private final String MSG_READ_ALL = "update app_message set status = 1 where cid = ?";
 
 	@Autowired
 	private DataSource dataSource;
@@ -32,6 +32,31 @@ public class AppJDBCService {
 		Statement stmt = conn.createStatement();
 		stmt.executeUpdate(sql);
 		conn.close();
+	}
+	
+	public void readMsgOne(long uid, long mid){
+		try {
+			Connection conn = dataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(MSG_READ_ONE);
+			pstmt.setLong(1, uid);
+			pstmt.setLong(2, mid);
+			pstmt.executeUpdate();
+			conn.close();
+		} catch (SQLException e) {
+			log.error("SQL failed:", e);
+		}		
+	}
+	
+	public void readMsgALL(long uid){
+		try {
+			Connection conn = dataSource.getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(MSG_READ_ALL);
+			pstmt.setLong(1, uid);
+			pstmt.executeUpdate();
+			conn.close();
+		} catch (SQLException e) {
+			log.error("SQL failed:", e);
+		}		
 	}
 		
 	public void joinCP(int wid, int rid){

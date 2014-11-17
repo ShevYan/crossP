@@ -22,7 +22,8 @@ public class AppMessage{
 	private String appName;
 	private Long appSpaceId;
 	private String appSpaceName;
-	private Long appItemId;	
+	private Long appItemId;
+	private String appItemName;	
 	private Long appTemplateId;
 	private String appTemplateName;
 	private Long appAreaId;
@@ -147,6 +148,13 @@ public class AppMessage{
 
 	public void setDate(long date) {
 		this.date = date;
+	}
+
+	public String getAppItemName() {
+		return appItemName;
+	}
+
+	public void setAppItemName(String appItemName) {
+		this.appItemName = appItemName;
 	}	
-	
 }

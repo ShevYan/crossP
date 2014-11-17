@@ -20,21 +20,28 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.crossp.jdbc.service.AppJDBCService;
 import com.crossp.jpa.domain.App;
+import com.crossp.jpa.domain.AppItem;
 import com.crossp.jpa.domain.AppItemArea;
 import com.crossp.jpa.domain.AppMessage;
+import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.AppItemAreaRepository;
+import com.crossp.jpa.service.AppItemRepository;
 import com.crossp.jpa.service.AppMessageRepository;
 import com.crossp.jpa.service.AppRepository;
 
 @Controller
 @RequestMapping(value = "/msg")
+@SessionAttributes("user")
 public class AppMessageController {
 
 	private Logger logger = LoggerFactory.getLogger(AppMessageController.class);  
@@ -44,6 +51,10 @@ public class AppMessageController {
 	private AppRepository appRepository;
 	@Autowired
 	private AppItemAreaRepository appItemAreaRepository;
+	@Autowired
+	private AppItemRepository appItemRepository;
+	@Autowired
+	private AppJDBCService appJDBCService;
 
 	@RequestMapping(value = "/all")
 	public @ResponseBody Iterable<AppMessage> findAll() {
@@ -56,17 +67,40 @@ public class AppMessageController {
 	}
 
 	@RequestMapping(value = "/req/{appId}/{areaId}/{itemId}", method = RequestMethod.POST)
-	public @ResponseBody Iterable<AppMessage> send(@PathVariable("appId") Long appId,
-			@PathVariable("areaId") Long areaId, @PathVariable("itemId") Long itemId) {		
+	public @ResponseBody void request(@ModelAttribute("user") User user, @PathVariable("appId") Long appId,
+			@PathVariable("areaId") Long areaId, @PathVariable("itemId") Long itemId, @RequestBody AppMessage appMessage) {		
 		logger.info("App cross request with appId: {}, areaId: {}, itemId {}.", appId, areaId, itemId);
 		App app = appRepository.findOne(appId);
 		AppItemArea appArea = appItemAreaRepository.findOne(areaId);
+		AppItem appItem = appItemRepository.findOne(itemId);
 		
-		return appMessageRepository.findByPid(itemId);
+		appMessage.setPid(user.getId());
+		appMessage.setpName(user.getUsername());;
+		appMessage.setCid(app.getUser().getId());
+		appMessage.setcName(app.getUser().getUsername());
+		appMessage.setAppId(app.getId());
+		appMessage.setAppName(app.getName());
+		appMessage.setAppAreaId(appArea.getId());
+		appMessage.setAppItemId(itemId);
+		appMessage.setAppItemName(appItem.getName());
+				
+		appMessageRepository.save(appMessage);
 	}
 
-	@RequestMapping(value = "/read/{uid}", method = RequestMethod.POST)
-	public @ResponseBody void read(@PathVariable("uid") Long uid) {
+	@RequestMapping(value = "/read/all", method = RequestMethod.POST)
+	public @ResponseBody void readAll(@ModelAttribute("user") User user) {
+		appJDBCService.readMsgALL(user.getId());
+	}
+	
+	@RequestMapping(value = "/new")
+	public @ResponseBody Iterable<AppMessage> unreadAll(@ModelAttribute("user") User user) {
+		return appMessageRepository.findByCidAndStatus(user.getId(), 0);
+	}
+	
+	@RequestMapping(value = "/read/{mid}", method = RequestMethod.POST)
+	public @ResponseBody void readOne(@ModelAttribute("user") User user, @PathVariable("mid") Long mid) {
+		appJDBCService.readMsgOne(user.getId(), mid);
+		
 	}
 
 	@RequestMapping(value = "/send/{uid}/all")
