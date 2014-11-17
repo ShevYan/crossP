@@ -13,4 +13,5 @@ import com.crossp.jpa.domain.User;
 public interface AppSpaceRepository extends CrudRepository<AppSpace, Long> {
 	
 	public List<AppSpace> findByUser(User user);
+	
 }

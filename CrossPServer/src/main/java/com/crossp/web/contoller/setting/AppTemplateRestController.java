@@ -16,6 +16,8 @@
 
 package com.crossp.web.contoller.setting;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,25 +27,25 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crossp.jpa.domain.AppTemplate;
-import com.crossp.jpa.domain.AppTemplateConf;
-import com.crossp.jpa.service.AppTemplateConfRepository;
 import com.crossp.jpa.service.AppTemplateRepository;
+import com.crossp.web.contoller.msg.AppMessageController;
 
 @Controller
 @RequestMapping(value="/setting/app/template")
 public class AppTemplateRestController {
 	
 	
+	private Logger logger = LoggerFactory.getLogger(AppMessageController.class); 
 	@Autowired
-	private AppTemplateConfRepository appTemplateRepository;	
+	private AppTemplateRepository appTemplateRepository;	
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<AppTemplateConf> findAppTemplates() {
+	public @ResponseBody Iterable<AppTemplate> findAppTemplates() {
 		return appTemplateRepository.findAll();
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody AppTemplateConf appTemplate) {
+	public @ResponseBody void add(@RequestBody AppTemplate appTemplate) {
 		appTemplateRepository.save(appTemplate);
 	}
 	

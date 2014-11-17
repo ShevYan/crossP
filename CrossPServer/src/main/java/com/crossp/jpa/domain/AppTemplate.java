@@ -5,15 +5,22 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name="app_template")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class AppTemplate{
 
 	@Id
@@ -27,6 +34,10 @@ public class AppTemplate{
 	@JoinColumn(name="appTemplate_id")
 	private List<AppItemArea> itemAreas;
 
+	@JsonIgnore
+	@OneToOne(mappedBy = "appTemplate", fetch = FetchType.LAZY)
+	private AppSpace appSpace;
+	
 	public Long getId() {
 		return id;
 	}

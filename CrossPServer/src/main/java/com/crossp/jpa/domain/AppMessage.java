@@ -15,11 +15,16 @@ public class AppMessage{
 	@GeneratedValue
 	private Long id;
 	private Long cid;
+	private String cName;
 	private Long pid;
+	private String pName;
 	private Long appId;
+	private String appName;
 	private Long appSpaceId;
+	private String appSpaceName;
 	private Long appItemId;	
 	private Long appTemplateId;
+	private String appTemplateName;
 	private Long appAreaId;
 	private String data;
 	private int type;
@@ -94,5 +99,54 @@ public class AppMessage{
 	}
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public String getcName() {
+		return cName;
+	}
+
+	public void setcName(String cName) {
+		this.cName = cName;
+	}
+
+	public String getpName() {
+		return pName;
+	}
+
+	public void setpName(String pName) {
+		this.pName = pName;
+	}
+
+	public String getAppName() {
+		return appName;
+	}
+
+	public void setAppName(String appName) {
+		this.appName = appName;
+	}
+
+	public String getAppSpaceName() {
+		return appSpaceName;
+	}
+
+	public void setAppSpaceName(String appSpaceName) {
+		this.appSpaceName = appSpaceName;
+	}
+
+	public String getAppTemplateName() {
+		return appTemplateName;
+	}
+
+	public void setAppTemplateName(String appTemplateName) {
+		this.appTemplateName = appTemplateName;
+	}
+
+	public long getDate() {
+		return date;
+	}
+
+	public void setDate(long date) {
+		this.date = date;
 	}	
+	
 }

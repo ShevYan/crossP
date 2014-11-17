@@ -31,7 +31,7 @@ import com.crossp.jpa.service.UserRepository;
 @Controller
 public class HomeController {
 
-	private Log logger = LogFactory.getLog(HomeController.class);
+	private Log logger = LogFactory.getLog(getClass());
 	
 	@Autowired
 	private UserRepository userRepository;

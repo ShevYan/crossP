@@ -16,6 +16,8 @@
 
 package com.crossp.web.contoller.setting;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -31,12 +33,13 @@ import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.AppItemRepository;
 import com.crossp.jpa.service.AppSpaceRepository;
 import com.crossp.jpa.service.UserRepository;
+import com.crossp.web.contoller.msg.AppMessageController;
 
 @Controller
 @RequestMapping(value="/setting/app/myAppBind")
 public class AppBindRestController {
 	
-	
+	private Logger logger = LoggerFactory.getLogger(AppMessageController.class); 
 	@Autowired
 	private AppItemRepository appItemRepository;
 	@Autowired

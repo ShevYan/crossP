@@ -22,7 +22,7 @@ public class AppSpace{
 	private String transparency;	
 	private boolean isPublic = true;
 		
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne(optional = false)
 	private User user;
 	@OneToOne(cascade = CascadeType.ALL)
 	private AppTemplate appTemplate; 

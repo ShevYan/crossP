@@ -7,8 +7,12 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="app_item_area")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class AppItemArea{
 
 	@Id
@@ -63,5 +67,5 @@ public class AppItemArea{
 	}
 	public void setDate(long date) {
 		this.date = date;
-	}	
+	}
 }

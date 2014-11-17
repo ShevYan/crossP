@@ -14,9 +14,14 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Inheritance
 @Table(name="app")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class App{
 
 	@Id  
@@ -27,13 +32,14 @@ public class App{
 	private String platform;
 	private String type;
 	private String description;
-	private boolean isPublic = true;
 	private UUID token =  java.util.UUID.randomUUID();
 	private long date = System.currentTimeMillis();
 		
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<AppSpace> appSpaces;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	
+	@JsonBackReference 
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
 	private User user;
 	public Long getId() {
 		return id;
@@ -71,12 +77,6 @@ public class App{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public boolean isPublic() {
-		return isPublic;
-	}
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-	}	
 	public User getUser() {
 		return user;
 	}
