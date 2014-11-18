@@ -21,13 +21,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.crossp.web.contoller.msg.AppMessageController;
-
 @Controller
 @RequestMapping(value="/setting")
 public class SettingController {
 
-	private Logger logger = LoggerFactory.getLogger(AppMessageController.class); 
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@RequestMapping(value="/home")
 	public String home() {
 		return "setting/home";

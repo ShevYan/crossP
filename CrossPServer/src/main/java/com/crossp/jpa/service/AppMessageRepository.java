@@ -16,5 +16,6 @@ public interface AppMessageRepository extends CrudRepository<AppMessage, Long> {
 	public List<AppMessage> findByPid(Long id);
 	
 	public List<AppMessage> findByCidAndStatus(Long id, int status);
-		
+	
+	public AppMessage findByIdAndCid(Long id, Long cid);
 }

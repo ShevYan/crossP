@@ -33,14 +33,13 @@ import com.crossp.jpa.domain.App;
 import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.AppRepository;
 import com.crossp.jpa.service.UserRepository;
-import com.crossp.web.contoller.msg.AppMessageController;
 
 @Controller
 @RequestMapping(value="/setting/app")
 @SessionAttributes("user")
 public class AppRestController {
 	
-	private Logger logger = LoggerFactory.getLogger(AppMessageController.class); 
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@Autowired
 	private AppRepository appRepository;
 	@Autowired

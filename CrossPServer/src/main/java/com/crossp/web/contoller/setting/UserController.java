@@ -27,13 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.UserRepository;
-import com.crossp.web.contoller.msg.AppMessageController;
 
 @Controller
 @RequestMapping(value="/user")
 public class UserController {
 
-	private Logger logger = LoggerFactory.getLogger(AppMessageController.class); 
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@Autowired
 	private UserRepository userRepository;
 	

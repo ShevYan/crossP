@@ -28,14 +28,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.crossp.jpa.domain.AppTemplate;
 import com.crossp.jpa.service.AppTemplateRepository;
-import com.crossp.web.contoller.msg.AppMessageController;
 
 @Controller
 @RequestMapping(value="/setting/app/template")
 public class AppTemplateRestController {
 	
 	
-	private Logger logger = LoggerFactory.getLogger(AppMessageController.class); 
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@Autowired
 	private AppTemplateRepository appTemplateRepository;	
 	

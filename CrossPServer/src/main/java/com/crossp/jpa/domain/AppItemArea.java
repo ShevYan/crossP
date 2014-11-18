@@ -25,6 +25,7 @@ public class AppItemArea{
 	@OneToOne
 	private AppItem appItem;
 	
+	
 	public AppItemArea() {
 	}
 	

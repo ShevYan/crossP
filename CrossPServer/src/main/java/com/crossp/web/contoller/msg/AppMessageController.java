@@ -44,7 +44,7 @@ import com.crossp.jpa.service.AppRepository;
 @SessionAttributes("user")
 public class AppMessageController {
 
-	private Logger logger = LoggerFactory.getLogger(AppMessageController.class);  
+	private Logger logger = LoggerFactory.getLogger(getClass());  
 	@Autowired
 	private AppMessageRepository appMessageRepository;
 	@Autowired
@@ -59,11 +59,6 @@ public class AppMessageController {
 	@RequestMapping(value = "/all")
 	public @ResponseBody Iterable<AppMessage> findAll() {
 		return appMessageRepository.findAll();
-	}
-
-	@RequestMapping(value = "/send", method = RequestMethod.POST)
-	public @ResponseBody void save(@RequestBody AppMessage appMessage) {
-		appMessageRepository.save(appMessage);
 	}
 
 	@RequestMapping(value = "/req/{appId}/{areaId}/{itemId}", method = RequestMethod.POST)
@@ -92,7 +87,12 @@ public class AppMessageController {
 		appJDBCService.readMsgALL(user.getId());
 	}
 	
-	@RequestMapping(value = "/new")
+	@RequestMapping(value = "/my/{mid}")
+	public @ResponseBody AppMessage findOneMsg(@ModelAttribute("user") User user, @PathVariable("mid") Long mid) {
+		return appMessageRepository.findByIdAndCid(mid, user.getId());
+	}
+	
+	@RequestMapping(value = "/my/new")
 	public @ResponseBody Iterable<AppMessage> unreadAll(@ModelAttribute("user") User user) {
 		return appMessageRepository.findByCidAndStatus(user.getId(), 0);
 	}
@@ -103,14 +103,28 @@ public class AppMessageController {
 		
 	}
 
-	@RequestMapping(value = "/send/{uid}/all")
-	public @ResponseBody Iterable<AppMessage> findAllUserSend(@PathVariable("uid") Long uid) {
-		return appMessageRepository.findByPid(uid);
+	@RequestMapping(value = "/my/send")
+	public @ResponseBody Iterable<AppMessage> findMySendMsg(@ModelAttribute("user") User user) {
+		return appMessageRepository.findByPid(user.getId());
 	}
 
-	@RequestMapping(value = "/rec/{uid}/all")
-	public @ResponseBody Iterable<AppMessage> findAllUserReceive(@PathVariable("uid") Long uid) {
-		return appMessageRepository.findByCid(uid);
+	@RequestMapping(value = "/my/rec")
+	public @ResponseBody Iterable<AppMessage> findMyRecMsg(@ModelAttribute("user") User user) {
+		return appMessageRepository.findByCid(user.getId());
+	}
+	
+	@RequestMapping(value = "/delete/{mid}")
+	public @ResponseBody void removeMsg(@ModelAttribute("user") User user, @PathVariable("mid") Long mid) {
+		AppMessage appMessage = appMessageRepository.findByIdAndCid(mid, user.getId());
+		if (appMessage != null){
+			appMessageRepository.delete(appMessage);
+		}
+		
+	}
+	
+	@RequestMapping(value = "/delete/all")
+	public @ResponseBody void removeAllMyMsg(@ModelAttribute("user") User user) {
+		appJDBCService.deteleMsg(user.getId());
 	}
 
 }
