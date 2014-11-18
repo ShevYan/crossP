@@ -33,7 +33,7 @@ public class AppTemplate{
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name="appTemplate_id")
 	private List<AppItemArea> itemAreas;
-
+	
 	@JsonIgnore
 	@OneToOne(mappedBy = "appTemplate", fetch = FetchType.LAZY)
 	private AppSpace appSpace;
@@ -61,6 +61,12 @@ public class AppTemplate{
 	public void setItemAreas(List<AppItemArea> itemAreas) {
 		this.itemAreas = itemAreas;
 	}
-	
-	
+
+	public AppSpace getAppSpace() {
+		return appSpace;
+	}
+
+	public void setAppSpace(AppSpace appSpace) {
+		this.appSpace = appSpace;
+	}
 }

@@ -48,7 +48,9 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
     public static class IndexSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/**").anonymous();
+            http.antMatcher("/**")
+            	.antMatcher("/event/**")
+            		.anonymous();
         }
     }
 

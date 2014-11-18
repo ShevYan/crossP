@@ -4,6 +4,7 @@ package com.crossp.jpa.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -25,6 +26,8 @@ public class AppItemArea{
 	@OneToOne
 	private AppItem appItem;
 	
+	@ManyToOne
+	private AppTemplate appTemplate;
 	
 	public AppItemArea() {
 	}
@@ -69,4 +72,12 @@ public class AppItemArea{
 	public void setDate(long date) {
 		this.date = date;
 	}
+
+	public AppTemplate getAppTemplate() {
+		return appTemplate;
+	}
+
+	public void setAppTemplate(AppTemplate appTemplate) {
+		this.appTemplate = appTemplate;
+	}	
 }
