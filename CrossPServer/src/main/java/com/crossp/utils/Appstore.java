@@ -22,26 +22,7 @@ import com.crossp.jpa.domain.StoreApp;
 public class Appstore {
 	public final static String appstorePrefix = "https://itunes.apple.com/en/app/id";
 	
-	public StoreApp getApp(String appstoreId) {
-		StoreApp storeItem = getFromDB(appstoreId);
-		if (null != storeItem) {
-			return storeItem;
-		}
-		
-		storeItem = getFromWeb(appstoreId);
-		
-		// todo: insert to DB
-		
-		
-		return storeItem;
-	}
-	
-	private StoreApp getFromDB(String appstoreId) {
-		// todo: query from DB
-		return null;
-	}
-	
-	private StoreApp getFromWeb(String appstoreId) {
+	public static StoreApp getFromWeb(String appstoreId) {
 		StoreApp appItem = null;
 		
 		try {		
@@ -116,7 +97,6 @@ public class Appstore {
 	}
 	
 	public static void main(String[] args) throws Exception {
-		Appstore store = new Appstore();
-		store.getFromWeb("850417475");
+		getFromWeb("850417475");
 	}
 }
