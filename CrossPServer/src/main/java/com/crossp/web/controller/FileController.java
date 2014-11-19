@@ -26,7 +26,7 @@ public class FileController {
 		return new ResponseEntity<byte[]>(data, httpHeaders, HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/upload/{name}", method=RequestMethod.POST)
+	@RequestMapping(value = "/upload", method=RequestMethod.POST)
 	public void upload(@RequestParam(value="file", required=true) MultipartFile file) throws Exception {
 		
 	}

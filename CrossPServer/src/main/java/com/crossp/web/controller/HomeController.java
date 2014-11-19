@@ -58,6 +58,11 @@ public class HomeController {
 		return "register";
 	}
 	
+	@RequestMapping(value="/upload")
+	public String upload() {
+		return "upload";
+	}
+	
 	/**
 	 * http://localhost:8080/register?username=11112121&password=1212121
 	 * @param user
