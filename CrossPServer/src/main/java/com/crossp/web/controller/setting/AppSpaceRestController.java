@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller.setting;
+package com.crossp.web.controller.setting;
 
 import java.util.ArrayList;
 import java.util.List;

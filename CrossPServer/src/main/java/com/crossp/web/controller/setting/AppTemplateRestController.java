@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller.setting;
+package com.crossp.web.controller.setting;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,31 +26,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crossp.jpa.domain.AppTemplateConf;
-import com.crossp.jpa.service.AppTemplateConfRepository;
+import com.crossp.jpa.domain.AppTemplate;
+import com.crossp.jpa.service.AppTemplateRepository;
 
 @Controller
-@RequestMapping(value="/setting/app/template/conf")
-public class AppTemplateConfRestController {
+@RequestMapping(value="/setting/app/template")
+public class AppTemplateRestController {
 	
 	
-	private Logger logger = LoggerFactory.getLogger(getClass());  
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@Autowired
-	private AppTemplateConfRepository appTemplateConfRepository;	
+	private AppTemplateRepository appTemplateRepository;	
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<AppTemplateConf> findAppTemplates() {
-		return appTemplateConfRepository.findAll();
+	public @ResponseBody Iterable<AppTemplate> findAppTemplates() {
+		return appTemplateRepository.findAll();
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody AppTemplateConf appTemplate) {
-		appTemplateConfRepository.save(appTemplate);
+	public @ResponseBody void add(@RequestBody AppTemplate appTemplate) {
+		appTemplateRepository.save(appTemplate);
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	public @ResponseBody void removeAppSpace(@PathVariable("id") Long id) {
-		appTemplateConfRepository.delete(id);
+		appTemplateRepository.delete(id);
 	}
 		
 }

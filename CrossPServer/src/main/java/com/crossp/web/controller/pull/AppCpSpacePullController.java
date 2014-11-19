@@ -14,41 +14,45 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller.setting;
+package com.crossp.web.controller.pull;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.crossp.jpa.domain.AppItemArea;
+import com.crossp.jdbc.service.AppJDBCService;
+import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.AppItemAreaRepository;
-import com.crossp.jpa.service.AppSpaceRepository;
-import com.crossp.jpa.service.UserRepository;
+import com.crossp.jpa.service.AppItemRepository;
+import com.crossp.jpa.service.AppMessageRepository;
+import com.crossp.jpa.service.AppRepository;
 
 @Controller
-@RequestMapping(value="/setting/app/area")
-public class AppItemAreaRestController {
-	
-	private Logger logger = LoggerFactory.getLogger(getClass()); 
+@RequestMapping(value = "/pull")
+@SessionAttributes("user")
+public class AppCpSpacePullController {
+
+	private Logger logger = LoggerFactory.getLogger(getClass());  
+	@Autowired
+	private AppMessageRepository appMessageRepository;
+	@Autowired
+	private AppRepository appRepository;
 	@Autowired
 	private AppItemAreaRepository appItemAreaRepository;
 	@Autowired
-	private AppSpaceRepository appSpaceRepository;
+	private AppItemRepository appItemRepository;
 	@Autowired
-	private UserRepository userRepository;			
+	private AppJDBCService appJDBCService;
+
 	
-	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<AppItemArea> findUserAppItems() {
-		return appItemAreaRepository.findAll();
+	@RequestMapping(value = "/delete/all")
+	public @ResponseBody void removeAllMyMsg(@ModelAttribute("user") User user) {
+		appJDBCService.deteleMsg(user.getId());
 	}
-	
-	@RequestMapping(value="/save", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody AppItemArea appItemArea) {
-		appItemAreaRepository.save(appItemArea);
-	}
+
 }

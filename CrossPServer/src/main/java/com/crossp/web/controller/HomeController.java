@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller;
+package com.crossp.web.controller;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

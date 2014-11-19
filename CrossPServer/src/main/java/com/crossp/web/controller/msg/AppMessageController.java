@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller.msg;
+package com.crossp.web.controller.msg;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -113,7 +113,7 @@ public class AppMessageController {
 		return appMessageRepository.findByCid(user.getId());
 	}
 	
-	@RequestMapping(value = "/delete/{mid}")
+	@RequestMapping(value = "/delete/{mid}", method = RequestMethod.DELETE)
 	public @ResponseBody void removeMsg(@ModelAttribute("user") User user, @PathVariable("mid") Long mid) {
 		AppMessage appMessage = appMessageRepository.findByIdAndCid(mid, user.getId());
 		if (appMessage != null){
@@ -122,7 +122,7 @@ public class AppMessageController {
 		
 	}
 	
-	@RequestMapping(value = "/delete/all")
+	@RequestMapping(value = "/delete/all", method = RequestMethod.DELETE)
 	public @ResponseBody void removeAllMyMsg(@ModelAttribute("user") User user) {
 		appJDBCService.deteleMsg(user.getId());
 	}

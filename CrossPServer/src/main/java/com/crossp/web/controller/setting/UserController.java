@@ -14,43 +14,43 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller.setting;
+package com.crossp.web.controller.setting;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.crossp.jpa.domain.AppTemplate;
-import com.crossp.jpa.service.AppTemplateRepository;
+import com.crossp.jpa.domain.User;
+import com.crossp.jpa.service.UserRepository;
 
 @Controller
-@RequestMapping(value="/setting/app/template")
-public class AppTemplateRestController {
-	
-	
+@RequestMapping(value="/user")
+public class UserController {
+
 	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@Autowired
-	private AppTemplateRepository appTemplateRepository;	
+	private UserRepository userRepository;
 	
-	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<AppTemplate> findAppTemplates() {
-		return appTemplateRepository.findAll();
-	}
-	
-	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody AppTemplate appTemplate) {
-		appTemplateRepository.save(appTemplate);
-	}
-	
-	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
-	public @ResponseBody void removeAppSpace(@PathVariable("id") Long id) {
-		appTemplateRepository.delete(id);
+	@RequestMapping(value="/my")
+	public @ResponseBody User findByName() {
+		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		User user = userRepository.findByUsername(principal.getUsername());
+		return user;
 	}
 		
+	@RequestMapping(value="/index")
+	public String index() {
+		return "index";
+	}
+	
+	@RequestMapping(value="/access")
+	public String access() {
+		return "access";
+	}
+	
 }

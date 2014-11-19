@@ -50,6 +50,7 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
         public void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/**")
             	.antMatcher("/event/**")
+            	.antMatcher("/download/**")
             		.anonymous();
         }
     }

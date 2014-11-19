@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller;
+package com.crossp.web.controller;
 
 import java.util.concurrent.atomic.AtomicLong;
 
