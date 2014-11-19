@@ -25,11 +25,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.crossp.jpa.domain.App;
 import com.crossp.jpa.domain.AppEventData;
-import com.crossp.jpa.domain.AppItem;
 import com.crossp.jpa.domain.AppItemArea;
 import com.crossp.jpa.service.AppEventRepository;
 import com.crossp.jpa.service.AppItemAreaRepository;
@@ -38,8 +36,7 @@ import com.crossp.jpa.service.AppMessageRepository;
 import com.crossp.jpa.service.AppRepository;
 
 @Controller
-@RequestMapping(value = "/bck/")
-@SessionAttributes("user")
+@RequestMapping(value = "/event")
 public class AppEventRestController {
 
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -55,19 +52,19 @@ public class AppEventRestController {
 	@Autowired
 	private AppEventRepository appEventRepository;
 
-	@RequestMapping(value = "/clk/{type}/{appId}/{areaId}/{itemId}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/{type}/{appId}/{areaId}/{itemId}", method = RequestMethod.POST)
 	public @ResponseBody void removeAppSpace(@PathVariable("appId") Long appId, @PathVariable("areaId") Long areaId,
 			@PathVariable("itemId") Long itemId, @PathVariable("type") int type, @RequestBody AppEventData eventData) {
 		App app = appRepository.findOne(appId);
 		AppItemArea appArea = appItemAreaRepository.findOne(areaId);
-		AppItem appItem = appItemRepository.findOne(itemId);
 		
 		eventData.setEventType(type);
 		eventData.setAppOwnerUserId(app.getUser().getId());
 		eventData.setAppOwnerAppId(appId);
+		eventData.setAppOwnerTemplateId(appArea.getAppTemplate().getId());
+		eventData.setAppOwnerSpaceId(appArea.getAppTemplate().getAppSpace().getId());
 		eventData.setAppOwnerAreaId(areaId);
-		eventData.setAppOwnerItemId(itemId);
-		
+		eventData.setAppOwnerItemId(itemId);		
 		appEventRepository.save(eventData);
 	}
 
