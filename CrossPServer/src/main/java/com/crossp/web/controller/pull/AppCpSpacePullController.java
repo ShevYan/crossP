@@ -21,11 +21,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.crossp.beans.DeliveredSpace;
 import com.crossp.jdbc.service.AppJDBCService;
+import com.crossp.jpa.domain.App;
 import com.crossp.jpa.domain.User;
 import com.crossp.jpa.service.AppItemAreaRepository;
 import com.crossp.jpa.service.AppItemRepository;
@@ -50,9 +53,14 @@ public class AppCpSpacePullController {
 	private AppJDBCService appJDBCService;
 
 	
-	@RequestMapping(value = "/delete/all")
-	public @ResponseBody void removeAllMyMsg(@ModelAttribute("user") User user) {
-		appJDBCService.deteleMsg(user.getId());
+	@RequestMapping(value = "/space")
+	public @ResponseBody DeliveredSpace getSpace(@RequestHeader("token") String token) {
+		DeliveredSpace space = new DeliveredSpace();
+		logger.info("Pull template with token : {}", token);
+		App app = appRepository.findByToken(java.util.UUID.fromString(token));
+		//app.getAppSpaces().get(0).getAppTemplate().getItemAreas().get(0).getAppItem() ! = null;
+		space.setAppId(app.getAppId());
+		return space;
 	}
 
 }

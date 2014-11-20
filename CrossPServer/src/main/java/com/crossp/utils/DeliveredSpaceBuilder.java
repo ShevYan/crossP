@@ -50,7 +50,7 @@ public class DeliveredSpaceBuilder {
 			
 			// construct DeliveredSpace
 			ds = new DeliveredSpace();
-			ds.setName(cpSpace.getName());
+//			ds.setName(cpSpace.getName());
 			ds.setPositon(cpSpace.getPosition());
 			ds.setShowType(cpSpace.getShowType());
 			ds.setTransparency(cpSpace.getTransparency());

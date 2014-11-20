@@ -1,25 +1,20 @@
 package com.crossp.beans;
 
+import java.util.List;
+
 // response of mobile's fetching request
 public class DeliveredSpace {
-	private String id;
-	private String name;
+	private String appId;
 	private String positon;
 	private String showType;
 	private String transparency;
 	private String downloadLink;
-	
-	public String getId() {
-		return id;
+	private List<DeliveredItem> items;
+	public String getAppId() {
+		return appId;
 	}
-	public void setId(String id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
+	public void setAppId(String appId) {
+		this.appId = appId;
 	}
 	public String getPositon() {
 		return positon;
@@ -45,6 +40,12 @@ public class DeliveredSpace {
 	public void setDownloadLink(String downloadLink) {
 		this.downloadLink = downloadLink;
 	}
+	public List<DeliveredItem> getItems() {
+		return items;
+	}
+	public void setItems(List<DeliveredItem> items) {
+		this.items = items;
+	}
 	
-	
+
 }
