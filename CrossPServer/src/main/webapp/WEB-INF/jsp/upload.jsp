@@ -10,7 +10,7 @@
     <div class="content">
      <div>
           <h2>Upload</h2>
-          <input type="file" ng-model="myFile">
+          <input type="file" file-model="myFile">
           <button ng-click="uploadFile()">Upload</button>
     </div>
     </div>
