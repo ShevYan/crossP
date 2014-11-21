@@ -8,16 +8,17 @@
   <div class="container">
   	<%@include file="header.jsp"%>
     <div class="content">
-     <div>
-          <h2>Upload</h2>
-          <input type="file" file-model="myFile">
-          <button ng-click="uploadFile()">Upload</button>
-    </div>
+		<form>
+		<input type="file" onchange="angular.element(this).scope().filesChanged(this)" multiple file-input="files" />
+		<button ng-click="upload()">Upload</button>
+		<li ng-repeat="file in files">{{file.name}}</li>
+		</form>
     </div>
   </div>
 </body>
 
 <script src="../../../js/lib/angular/angular.js"></script>
-<script src="../../../js/controllers/AppUploadController.js"></script>
 <script src="../../../js/app.js"></script>
+<script src="../../../js/directives.js"></script>
+<script src="../../../js/controllers/AppUploadController.js"></script>  
 </html>

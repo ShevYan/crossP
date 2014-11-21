@@ -31,6 +31,6 @@
 //}]);
 // 
 
-var App = angular.module('SettingModule', []);
+var App = angular.module('SettingModule', ['SettingModule.directives']);
 
 

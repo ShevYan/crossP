@@ -2,29 +2,17 @@
 
 /* Directives */
 
-var AppDirectives = angular.module('AngularSpringApp.directives', []);
+var AppDirectives = angular.module('SettingModule.directives', []);
 
-AppDirectives.directive('appVersion', 'logService', ['version',function(version, logService) {
-			logService.log.info('directives.js: ');
-			return function(scope, elm, attrs) {
-				elm.text(version);
-			};
-		}
-	]);
-
-
-AppDirectives.directive('fileModel', [ '$parse', function($parse) {
+AppDirectives.directive('fileInput',['$parse',function($parse){
 	return {
 		restrict : 'A',
-		link : function(scope, element, attrs) {
-			var model = $parse(attrs.fileModel);
-			var modelSetter = model.assign;
-
-			element.bind('change', function() {
-				scope.$apply(function() {
-					modelSetter(scope, element[0].files[0]);
-				});
-			});
+		link : function(scope,elm,attrs){
+			elm.bind('change',function(){
+				$parse(attrs.fileInput)
+				.assign(scope,elm[0].files)
+				scope.$apply()
+			})
 		}
-	};
-} ]);
+	}
+}]);
