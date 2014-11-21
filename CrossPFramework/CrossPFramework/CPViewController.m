@@ -20,14 +20,14 @@ enum ShowType {
 @interface CPViewController ()
 @property dispatch_queue_t fetchSpaceQueue;
 @property (nonatomic, strong) UIWebView *webView;
-@property (nonatomic, copy) NSString *appID;
+@property (nonatomic, copy) NSString *appToken;
 @property NSURL *webUrl;
 @property CGRect webViewFrame;
 @property int showType;
 @property float transparency;
 @end
 
-#define REQ_URI @"http://www.eyeshang.com/tmp.json"
+#define REQ_URI @"http://10.200.78.29:8080/pull/space"
 
 @implementation CPViewController
 
@@ -74,15 +74,15 @@ enum ShowType {
 
 
 ///////////
-- (void) cpInit:(NSString *)appID delegate:(id<CPProtocol>)delegate{
-    self.appID = appID;
+- (void) cpInit:(NSString *)appToken delegate:(id<CPProtocol>)delegate{
+    self.appToken = appToken;
     self.delegate = delegate;
 
     [self cpFetchAsync];
 }
 
 - (void) cpUninit {
-    self.appID = nil;
+    self.appToken = nil;
 }
 
 - (void) cpFetchAsync {
@@ -93,7 +93,8 @@ enum ShowType {
         @try {
             self.webUrl = nil;
             // get json
-            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:REQ_URI] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:0.5];
+            NSString *reqUrl = [NSString stringWithFormat:@"%@/%@", REQ_URI, self.appToken];
+            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:reqUrl] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:0.5];
             NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
             NSError *jsonParsingError = nil;
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonParsingError];
@@ -103,8 +104,8 @@ enum ShowType {
             }
             
             // get download link
-            NSDictionary *fetchResp = [json objectForKey:@"fetchResp"];
-            NSString *downloadLink = [fetchResp objectForKey:@"DownloadLink"];
+
+            NSString *downloadLink = [json objectForKey:@"downloadLink"];
             
             // download zip
             NSString *tempPath = NSTemporaryDirectory();
@@ -120,6 +121,10 @@ enum ShowType {
             [za UnzipCloseFile];
             za = nil;
             
+            // ingest model
+            NSString *modelPath = [zipPath stringByAppendingPathComponent:@"js/cp_model.js"];
+            [response writeToFile:modelPath atomically:false];
+            
             // show
             NSURL *url = [NSURL fileURLWithPath:[zipPath stringByAppendingPathComponent:@"cpSpace.html"]];
             
@@ -128,7 +133,7 @@ enum ShowType {
                     @try {
                         if (nil != self.delegate) {
                             self.webUrl = url;
-                            [self parseShowOptions:[fetchResp objectForKey:@"CpSpace"]];
+                            [self parseShowOptions:json];
                             [self.delegate cpDidFecth];
                         }
                     }
@@ -150,7 +155,7 @@ enum ShowType {
 - (void) parseShowOptions:(NSDictionary *)cpSpace{
     self.showType = [[cpSpace objectForKey:@"showType"] integerValue];
     self.transparency = [[cpSpace objectForKey:@"transparency"] integerValue] / 100.0f;
-    NSArray *strArr = [(NSString *)[cpSpace objectForKey:@"position"] componentsSeparatedByString:@", "];
+    NSArray *strArr = [(NSString *)[cpSpace objectForKey:@"position"] componentsSeparatedByString:@","];
     CGFloat x = [[strArr objectAtIndex:0] floatValue]/100.0f;
     CGFloat y = [[strArr objectAtIndex:1] floatValue]/100.0f;
     CGFloat w = [[strArr objectAtIndex:2] floatValue]/100.0f;

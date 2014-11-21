@@ -13,7 +13,7 @@
 + (instancetype) sharedInstance;
 @property (nonatomic, assign) id<CPProtocol> delegate;
 
-- (void) cpInit:(NSString *)appID delegate:(id<CPProtocol>)delegate;
+- (void) cpInit:(NSString *)appToken delegate:(id<CPProtocol>)delegate;
 - (void) cpUninit;
 - (void) cpFetchAsync;
 - (BOOL) cpIsReady;

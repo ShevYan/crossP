@@ -20,7 +20,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [[CPViewController sharedInstance] cpInit:@"appID" delegate:self];
+    [[CPViewController sharedInstance] cpInit:@"968a98cc-3e16-4e23-8e70-be75adab7d3a" delegate:self];
 }
 
 - (void)didReceiveMemoryWarning
