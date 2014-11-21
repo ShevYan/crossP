@@ -39,7 +39,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.crossp.Application;
-import com.crossp.web.contoller.GreetingController;
+import com.crossp.web.controller.GreetingController;
 
 /**
  * @author Roy Clarkson

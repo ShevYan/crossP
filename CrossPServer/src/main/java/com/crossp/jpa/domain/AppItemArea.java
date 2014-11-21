@@ -4,11 +4,16 @@ package com.crossp.jpa.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Table(name="app_item_area")
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
 public class AppItemArea{
 
 	@Id
@@ -20,6 +25,9 @@ public class AppItemArea{
 	private long date = System.currentTimeMillis();
 	@OneToOne
 	private AppItem appItem;
+	
+	@ManyToOne
+	private AppTemplate appTemplate;
 	
 	public AppItemArea() {
 	}
@@ -63,5 +71,13 @@ public class AppItemArea{
 	}
 	public void setDate(long date) {
 		this.date = date;
+	}
+
+	public AppTemplate getAppTemplate() {
+		return appTemplate;
+	}
+
+	public void setAppTemplate(AppTemplate appTemplate) {
+		this.appTemplate = appTemplate;
 	}	
 }

@@ -2,7 +2,6 @@ package com.crossp.jpa.domain;
 
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -14,10 +13,15 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 @Entity
 @Inheritance
 @Table(name="app")
-public class App{
+@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class, property="@id")
+public class App {
 
 	@Id  
 	@GeneratedValue
@@ -27,14 +31,16 @@ public class App{
 	private String platform;
 	private String type;
 	private String description;
-	private boolean isPublic = true;
-	private UUID token =  java.util.UUID.randomUUID();
+	private String token =  java.util.UUID.randomUUID().toString();
 	private long date = System.currentTimeMillis();
 		
 	@ManyToMany(fetch = FetchType.LAZY)
 	private List<AppSpace> appSpaces;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY, optional = false)
 	private User user;
+	
 	public Long getId() {
 		return id;
 	}
@@ -71,12 +77,6 @@ public class App{
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public boolean isPublic() {
-		return isPublic;
-	}
-	public void setPublic(boolean isPublic) {
-		this.isPublic = isPublic;
-	}	
 	public User getUser() {
 		return user;
 	}
@@ -89,10 +89,10 @@ public class App{
 	public void setAppSpaces(List<AppSpace> appSpaces) {
 		this.appSpaces = appSpaces;
 	}	
-	public UUID getToken() {
+	public String getToken() {
 		return token;
 	}
-	public void setToken(UUID token) {
+	public void setToken(String token) {
 		this.token = token;
 	}
 	public long getDate() {

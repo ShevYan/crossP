@@ -25,12 +25,15 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configurers.GlobalAuthenticationConfigurerAdapter;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @Configuration
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 
 
@@ -38,7 +41,6 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 	public ApplicationSecurity applicationSecurity() {
 		return new ApplicationSecurity();
 	}
-
 	@Bean
 	public AuthenticationSecurity authenticationSecurity() {
 		return new AuthenticationSecurity();
@@ -48,7 +50,10 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
     public static class IndexSecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/**").anonymous();
+            http.antMatcher("/**")
+            	.antMatcher("/event/**")
+            	.antMatcher("/download/**")
+            		.anonymous();
         }
     }
 
@@ -57,6 +62,8 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 
 		@Autowired
 		private SecurityProperties security;
+		@Autowired
+		private CrossPSuccessHandler crossPSuccessHandler;
 		
 		@Override
 		protected void configure(HttpSecurity http) throws Exception {
@@ -67,8 +74,9 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 					.antMatchers("/admin/**").hasRole("ADMIN")
 					.and()
 						.formLogin()
-							.loginPage("/login")
+							.loginPage("/login")								
 								.defaultSuccessUrl("/")
+								.successHandler(crossPSuccessHandler)
 								.failureUrl("/login?error").permitAll()
 					.and()
 						.logout()
@@ -88,6 +96,8 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 
 		@Autowired
 		private DataSource dataSource;
+		
+		private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
 		@Override
 		public void init(AuthenticationManagerBuilder auth) throws Exception {
@@ -96,7 +106,7 @@ public class WebSecurityConfiguration extends WebMvcConfigurerAdapter {
 //			.withUser("api").password("api").roles("REST").and()
 //			.withUser("user").password("user").roles("USER");
 			
-			auth.jdbcAuthentication().dataSource(this.dataSource);
+			auth.jdbcAuthentication().passwordEncoder(encoder).dataSource(this.dataSource);
 		}
 	}
 

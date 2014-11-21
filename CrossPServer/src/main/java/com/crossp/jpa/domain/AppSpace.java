@@ -8,6 +8,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name="app_space")
@@ -18,12 +20,14 @@ public class AppSpace{
 	private Long id;
 	private String name;
 	private String position;
-	private String showType;
+	private int showType;
 	private String transparency;	
 	private boolean isPublic = true;
 		
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@JsonIgnore
+	@ManyToOne(optional = false)
 	private User user;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	private AppTemplate appTemplate; 
 	
@@ -48,10 +52,10 @@ public class AppSpace{
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	public String getShowType() {
+	public int getShowType() {
 		return showType;
 	}
-	public void setShowType(String showType) {
+	public void setShowType(int showType) {
 		this.showType = showType;
 	}
 	public String getTransparency() {

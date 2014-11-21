@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="app_item")
 public class AppItem{
@@ -25,10 +27,14 @@ public class AppItem{
 	private String type;
 	private String description;
 	private long date = System.currentTimeMillis();
-	@ManyToOne(cascade = CascadeType.MERGE)
+	
+	@JsonIgnore
+	@ManyToOne(cascade = CascadeType.MERGE, optional = false)
 	private User user;
+	
 	@OneToMany(fetch = FetchType.LAZY)
 	List<AppEvent> events;
+	
 	public Long getId() {
 		return id;
 	}

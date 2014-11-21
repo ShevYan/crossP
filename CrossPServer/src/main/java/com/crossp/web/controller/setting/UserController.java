@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller.setting;
+package com.crossp.web.controller.setting;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +32,7 @@ import com.crossp.jpa.service.UserRepository;
 @RequestMapping(value="/user")
 public class UserController {
 
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@Autowired
 	private UserRepository userRepository;
 	

@@ -14,17 +14,19 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller.setting;
+package com.crossp.web.controller.setting;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.crossp.jpa.domain.AppItem;
 import com.crossp.jpa.domain.User;
@@ -34,9 +36,10 @@ import com.crossp.jpa.service.UserRepository;
 
 @Controller
 @RequestMapping(value="/setting/app/item")
+@SessionAttributes("user")
 public class AppItemRestController {
 	
-	
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@Autowired
 	private AppItemRepository appItemRepository;
 	@Autowired
@@ -45,17 +48,13 @@ public class AppItemRestController {
 	private UserRepository userRepository;			
 	
 	@RequestMapping(value="/all")
-	public @ResponseBody Iterable<AppItem> findUserAppItems() {
-		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		User user = userRepository.findByUsername(principal.getUsername());
+	
+	public @ResponseBody Iterable<AppItem> findUserAppItems(@ModelAttribute("user") User user) {
 		return appItemRepository.findByUser(user);
 	}
 	
 	@RequestMapping(value="/add", method=RequestMethod.POST)
-	public @ResponseBody void add(@RequestBody AppItem appItem) {
-		UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		//@SessionAttributes instead of it, store it from login
-		User user = userRepository.findByUsername(principal.getUsername());
+	public @ResponseBody void add(@ModelAttribute("user") User user, @RequestBody AppItem appItem) {
 		appItem.setUser(user);
 		appItemRepository.save(appItem);
 	}

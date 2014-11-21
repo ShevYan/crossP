@@ -14,11 +14,12 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller;
+package com.crossp.web.controller;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,7 +32,7 @@ import com.crossp.jpa.service.UserRepository;
 @Controller
 public class HomeController {
 
-	private Log logger = LogFactory.getLog(HomeController.class);
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	
 	@Autowired
 	private UserRepository userRepository;
@@ -58,6 +59,11 @@ public class HomeController {
 		return "register";
 	}
 	
+	@RequestMapping(value="/upload")
+	public String upload() {
+		return "upload";
+	}
+	
 	/**
 	 * http://localhost:8080/register?username=11112121&password=1212121
 	 * @param user
@@ -65,11 +71,13 @@ public class HomeController {
 	 */
 	@RequestMapping(value="/register", method=RequestMethod.POST)
 	public String registerUser(User user) {
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		user.setPassword(encoder.encode(user.getPassword()));
 		Authority auth = new Authority();
 		auth.setUsername(user.getUsername());
 		auth.setAuthority("ROLE_USER");
 		user.setEnabled(true);
-		logger.info(user);
+		logger.info("Username :{}, Password:{}",user.getUsername(),user.getPassword());
 		userRepository.save(user);
 		authorityRepository.save(auth);
 		return "login";

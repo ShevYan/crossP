@@ -14,8 +14,10 @@
  * limitations under the License.
  */
 
-package com.crossp.web.contoller.setting;
+package com.crossp.web.controller.setting;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -23,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping(value="/setting")
 public class SettingController {
 
-	
+	private Logger logger = LoggerFactory.getLogger(getClass()); 
 	@RequestMapping(value="/home")
 	public String home() {
 		return "setting/home";
