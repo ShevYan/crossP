@@ -16,20 +16,28 @@
 
 package com.crossp.web.controller.pull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.crossp.beans.DeliveredItem;
 import com.crossp.beans.DeliveredSpace;
 import com.crossp.jdbc.service.AppJDBCService;
 import com.crossp.jpa.domain.App;
-import com.crossp.jpa.domain.User;
+import com.crossp.jpa.domain.AppItem;
+import com.crossp.jpa.domain.AppItemArea;
+import com.crossp.jpa.domain.AppSpace;
+import com.crossp.jpa.domain.AppTemplate;
+import com.crossp.jpa.domain.AppTemplateConf;
 import com.crossp.jpa.service.AppItemAreaRepository;
 import com.crossp.jpa.service.AppItemRepository;
 import com.crossp.jpa.service.AppMessageRepository;
@@ -55,12 +63,51 @@ public class AppCpSpacePullController {
 	
 	@RequestMapping(value = "/space")
 	public @ResponseBody DeliveredSpace getSpace(@RequestHeader("token") String token) {
-		DeliveredSpace space = new DeliveredSpace();
 		logger.info("Pull template with token : {}", token);
-		App app = appRepository.findByToken(java.util.UUID.fromString(token));
-		//app.getAppSpaces().get(0).getAppTemplate().getItemAreas().get(0).getAppItem() ! = null;
-		space.setAppId(app.getAppId());
-		return space;
+		if (StringUtils.isEmpty(token)){
+			return null;
+		}
+		App app = appRepository.findByToken(token);		
+		DeliveredSpace deliver = getDeliveredSpace(app);
+		deliver.setAppId(app.getAppId());
+		return deliver;
+	}
+	
+	private DeliveredSpace getDeliveredSpace(App app){
+		DeliveredSpace deliver = new DeliveredSpace();
+		List<DeliveredItem> dItems = new ArrayList<DeliveredItem>();
+		List<AppSpace> spaces =  app.getAppSpaces();
+		
+		for (AppSpace space : spaces){
+			AppTemplate template = space.getAppTemplate();
+			if (template != null){
+				AppTemplateConf conf = template.getAppTconf();
+				if (conf == null){
+					continue;
+				}
+				deliver.setPositon(space.getPosition());
+				deliver.setShowType(space.getShowType());
+				deliver.setTransparency(space.getTransparency());
+				deliver.setDownloadLink(conf.getZipPath());
+				List<AppItemArea>  areas = template.getItemAreas();
+				for (AppItemArea area : areas){
+					AppItem item = area.getAppItem();
+					if (item != null){
+						DeliveredItem ditem = new DeliveredItem();
+						ditem.setDescription(item.getDescription());
+						ditem.setIcon(item.getIcon());
+						ditem.setName(item.getName());
+						ditem.setType(item.getType());
+						dItems.add(ditem);
+					}
+				}
+				if (dItems.size() > 0){
+					deliver.setItems(dItems);
+					return deliver;
+				}
+			}
+		}
+		return deliver;
 	}
 
 }

@@ -2,7 +2,6 @@ package com.crossp.jpa.domain;
 
 
 import java.util.List;
-import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -32,7 +31,7 @@ public class App {
 	private String platform;
 	private String type;
 	private String description;
-	private UUID token =  java.util.UUID.randomUUID();
+	private String token =  java.util.UUID.randomUUID().toString();
 	private long date = System.currentTimeMillis();
 		
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -90,10 +89,10 @@ public class App {
 	public void setAppSpaces(List<AppSpace> appSpaces) {
 		this.appSpaces = appSpaces;
 	}	
-	public UUID getToken() {
+	public String getToken() {
 		return token;
 	}
-	public void setToken(UUID token) {
+	public void setToken(String token) {
 		this.token = token;
 	}
 	public long getDate() {

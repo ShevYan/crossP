@@ -17,7 +17,7 @@ public interface AppRepository extends CrudRepository<App, Long> {
 	
 	public List<App> findByUserId(Long id);
 	
-	public App findByToken(java.util.UUID token);
+	public App findByToken(String token);
 	
 	@Query(value = "select * from app c where c.id in "
 			+ "(select b.apps_id from application a, app_app b where a.id=b.app_id and a.id = ?)", nativeQuery=true)
