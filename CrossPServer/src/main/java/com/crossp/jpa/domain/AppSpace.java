@@ -20,7 +20,7 @@ public class AppSpace{
 	private Long id;
 	private String name;
 	private String position;
-	private String showType;
+	private int showType;
 	private String transparency;	
 	private boolean isPublic = true;
 		
@@ -52,10 +52,10 @@ public class AppSpace{
 	public void setPosition(String position) {
 		this.position = position;
 	}
-	public String getShowType() {
+	public int getShowType() {
 		return showType;
 	}
-	public void setShowType(String showType) {
+	public void setShowType(int showType) {
 		this.showType = showType;
 	}
 	public String getTransparency() {

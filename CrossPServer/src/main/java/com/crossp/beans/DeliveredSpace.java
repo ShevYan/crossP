@@ -5,8 +5,8 @@ import java.util.List;
 // response of mobile's fetching request
 public class DeliveredSpace {
 	private String appId;
-	private String positon;
-	private String showType;
+	private String position;
+	private int showType;
 	private String transparency;
 	private String downloadLink;
 	private List<DeliveredItem> items;
@@ -15,17 +15,17 @@ public class DeliveredSpace {
 	}
 	public void setAppId(String appId) {
 		this.appId = appId;
+	}	
+	public String getPosition() {
+		return position;
 	}
-	public String getPositon() {
-		return positon;
+	public void setPosition(String position) {
+		this.position = position;
 	}
-	public void setPositon(String positon) {
-		this.positon = positon;
-	}
-	public String getShowType() {
+	public int getShowType() {
 		return showType;
 	}
-	public void setShowType(String showType) {
+	public void setShowType(int showType) {
 		this.showType = showType;
 	}
 	public String getTransparency() {

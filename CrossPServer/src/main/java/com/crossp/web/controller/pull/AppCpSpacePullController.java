@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -61,8 +61,8 @@ public class AppCpSpacePullController {
 	private AppJDBCService appJDBCService;
 
 	
-	@RequestMapping(value = "/space")
-	public @ResponseBody DeliveredSpace getSpace(@RequestHeader("token") String token) {
+	@RequestMapping(value = "/space/{token}")
+	public @ResponseBody DeliveredSpace getSpace(@PathVariable("token") String token) {
 		logger.info("Pull template with token : {}", token);
 		if (StringUtils.isEmpty(token)){
 			return null;
@@ -77,7 +77,9 @@ public class AppCpSpacePullController {
 		DeliveredSpace deliver = new DeliveredSpace();
 		List<DeliveredItem> dItems = new ArrayList<DeliveredItem>();
 		List<AppSpace> spaces =  app.getAppSpaces();
-		
+		if (spaces == null){
+			return deliver;
+		}
 		for (AppSpace space : spaces){
 			AppTemplate template = space.getAppTemplate();
 			if (template != null){
@@ -85,7 +87,7 @@ public class AppCpSpacePullController {
 				if (conf == null){
 					continue;
 				}
-				deliver.setPositon(space.getPosition());
+				deliver.setPosition(space.getPosition());
 				deliver.setShowType(space.getShowType());
 				deliver.setTransparency(space.getTransparency());
 				deliver.setDownloadLink(conf.getZipPath());

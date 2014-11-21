@@ -51,7 +51,7 @@ public class DeliveredSpaceBuilder {
 			// construct DeliveredSpace
 			ds = new DeliveredSpace();
 //			ds.setName(cpSpace.getName());
-			ds.setPositon(cpSpace.getPosition());
+//			ds.setPositon(cpSpace.getPosition());
 			ds.setShowType(cpSpace.getShowType());
 			ds.setTransparency(cpSpace.getTransparency());
 			ds.setDownloadLink(genDownloadLink(des.getAbsolutePath() + ".zip"));
@@ -168,7 +168,7 @@ public class DeliveredSpaceBuilder {
 		cpSpace.setId(12345678L);
 		cpSpace.setName("mock App Space");
 		cpSpace.setPosition("10, 10, 80, 80");
-		cpSpace.setShowType("2");
+//		cpSpace.setShowType("2");
 		cpSpace.setTransparency("0.2");
 		cpSpace.setPublic(true);
 

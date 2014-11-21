@@ -18,10 +18,10 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class FileController {
 
-	@RequestMapping("/download/{name}")
+	@RequestMapping("/download/{name:.+}")
 	public HttpEntity<byte[]> download(@PathVariable("name") String name) throws Exception {
 		HttpHeaders httpHeaders = new HttpHeaders();
-		Path path = Paths.get("download/test.txt");
+		Path path = Paths.get("download/" + name);
 		byte[] data = Files.readAllBytes(path);
 		return new ResponseEntity<byte[]>(data, httpHeaders, HttpStatus.OK);
 	}
