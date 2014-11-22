@@ -2,9 +2,9 @@
 
 /* Directives */
 
-var AppDirectives = angular.module('SettingModule.directives', []);
+var UploadModule = angular.module('UploadModule.directives', []);
 
-AppDirectives.directive('fileInput',['$parse',function($parse){
+UploadModule.directive('fileInput',['$parse',function($parse){
 	return {
 		restrict : 'A',
 		link : function(scope,elm,attrs){

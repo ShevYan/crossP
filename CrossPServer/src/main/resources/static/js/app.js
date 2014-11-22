@@ -30,7 +30,7 @@
 //    	
 //}]);
 // 
-
-var App = angular.module('SettingModule', ['SettingModule.directives']);
+var App = angular.module('SettingModule', []);
+var App = angular.module('UploadModule', ['UploadModule.directives']);
 
 

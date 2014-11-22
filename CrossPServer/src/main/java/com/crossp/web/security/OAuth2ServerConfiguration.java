@@ -54,56 +54,6 @@ public class OAuth2ServerConfiguration {
 
     }
     
-    @Order(1)
-    public static class IndexSecurityConfig extends WebSecurityConfigurerAdapter {
-        @Override
-        public void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("/**")
-            	.antMatcher("/event/**")
-            	.antMatcher("/download/**")
-            		.anonymous();
-        }
-        
-      @Override
-      @Bean
-      public AuthenticationManager authenticationManagerBean() throws Exception {
-          return super.authenticationManagerBean();
-      }
-    }
-
-    @Order(2)
-	protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
-
-		@Autowired
-		private SecurityProperties security;
-		@Autowired
-		private CrossPSuccessHandler crossPSuccessHandler;
-		
-		@Override
-		protected void configure(HttpSecurity http) throws Exception {
-			http.authorizeRequests()
-					.antMatchers("/api/**").hasRole("REST")	
-					.antMatchers("/user/**").hasRole("USER")
-					.antMatchers("/setting/**").hasRole("USER")
-					.antMatchers("/admin/**").hasRole("ADMIN")
-					.and()
-						.formLogin()
-							.loginPage("/login")								
-								.defaultSuccessUrl("/")
-								.successHandler(crossPSuccessHandler)
-								.failureUrl("/login?error").permitAll()
-					.and()
-						.logout()
-							.deleteCookies("remove")
-							.invalidateHttpSession(false)
-							.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-					.and().exceptionHandling()
-                    		.accessDeniedPage("/forbidden")
-                    .and()
-                    	.csrf().disable();
-		}
-	}
-
     @Configuration
     @EnableResourceServer
     static class ResourceServerConfig extends ResourceServerConfigurerAdapter {
@@ -120,14 +70,11 @@ public class OAuth2ServerConfiguration {
         @Override
         public void configure(HttpSecurity http) throws Exception {
             http.sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
             http.antMatcher("/**").anonymous()
             	.and()
                     .authorizeRequests()
 	                    .antMatchers("/api/**").hasRole("REST")	
-						.antMatchers("/user/**").hasRole("USER")
-						.antMatchers("/setting/**").hasRole("USER")
-						.antMatchers("/admin/**").hasRole("ADMIN")
 				.and()
 					.formLogin()
 							.loginPage("/login")								
