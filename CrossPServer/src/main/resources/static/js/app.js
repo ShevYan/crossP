@@ -33,4 +33,3 @@
 var App = angular.module('SettingModule', []);
 var App = angular.module('UploadModule', ['UploadModule.directives']);
 
-
