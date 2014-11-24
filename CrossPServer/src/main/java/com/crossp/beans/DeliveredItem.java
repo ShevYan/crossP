@@ -5,6 +5,7 @@ public class DeliveredItem {
 	private String name;
 	private String icon;
 	private String type;
+	private String appId;
 	private String description;
 	public String getName() {
 		return name;
@@ -30,6 +31,10 @@ public class DeliveredItem {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
-
+	public String getAppId() {
+		return appId;
+	}
+	public void setAppId(String appId) {
+		this.appId = appId;
+	}
 }
