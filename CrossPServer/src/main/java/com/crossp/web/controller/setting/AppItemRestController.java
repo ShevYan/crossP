@@ -47,8 +47,7 @@ public class AppItemRestController {
 	@Autowired
 	private UserRepository userRepository;			
 	
-	@RequestMapping(value="/all")
-	
+	@RequestMapping(value="/all")	
 	public @ResponseBody Iterable<AppItem> findUserAppItems(@ModelAttribute("user") User user) {
 		return appItemRepository.findByUser(user);
 	}

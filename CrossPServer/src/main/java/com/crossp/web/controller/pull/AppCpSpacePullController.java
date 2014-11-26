@@ -100,6 +100,7 @@ public class AppCpSpacePullController {
 						ditem.setIcon(item.getIcon());
 						ditem.setName(item.getName());
 						ditem.setType(item.getType());
+						ditem.setAppId(item.getAppId());
 						dItems.add(ditem);
 					}
 				}
