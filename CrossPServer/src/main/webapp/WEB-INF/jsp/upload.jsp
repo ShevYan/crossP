@@ -4,7 +4,7 @@
 <head>
 <title>About Page</title>
 </head>
-<body ng-app="SettingModule" ng-controller="AppUploadController">
+<body ng-app="UploadModule" ng-controller="AppUploadController">
   <div class="container">
   	<%@include file="header.jsp"%>
     <div class="content">
