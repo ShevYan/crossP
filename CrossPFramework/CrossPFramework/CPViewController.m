@@ -27,7 +27,7 @@ enum ShowType {
 @property float transparency;
 @end
 
-#define REQ_URI @"http://10.200.78.29:8080/pull/space"
+#define REQ_URI @"http://www.eyeshang.com/pull/space/"
 
 @implementation CPViewController
 
@@ -93,8 +93,8 @@ enum ShowType {
         @try {
             self.webUrl = nil;
             // get json
-            NSString *reqUrl = [NSString stringWithFormat:@"%@/%@", REQ_URI, self.appToken];
-            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:reqUrl] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:0.5];
+            NSString *reqUrl = [NSString stringWithFormat:@"%@%@", REQ_URI, self.appToken];
+            NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:reqUrl] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:10.0];
             NSData *response = [NSURLConnection sendSynchronousRequest:request returningResponse:nil error:nil];
             NSError *jsonParsingError = nil;
             NSDictionary *json = [NSJSONSerialization JSONObjectWithData:response options:0 error:&jsonParsingError];

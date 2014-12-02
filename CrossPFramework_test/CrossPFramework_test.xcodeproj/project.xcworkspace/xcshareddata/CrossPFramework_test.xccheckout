@@ -11,17 +11,17 @@
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>102F54728FB533F625517D1C34D9BA7295CF002C</key>
-		<string>https://github.com/ShevYan/crossP.git</string>
+		<string>github.com:ShevYan/crossP.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>CrossPFramework_test/CrossPFramework_test.xcodeproj/project.xcworkspace</string>
+	<string>CrossPFramework_test/CrossPFramework_test.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>102F54728FB533F625517D1C34D9BA7295CF002C</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/ShevYan/crossP.git</string>
+	<string>github.com:ShevYan/crossP.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>111</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
